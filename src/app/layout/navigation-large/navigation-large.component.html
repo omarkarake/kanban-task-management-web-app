@@ -31,11 +31,11 @@
         src="assets/icon-vertical-ellipsis.svg"
         alt="icon-vertical-ellipsis"
         (click)="toggleDropDown()"
-        class="cursor-pointer z-50"
+        class="cursor-pointer"
       />
       <div
         *ngIf="dropDownActive"
-        class="p-4 flex flex-col gap-4 w-[192px] rounded-xl absolute right-1 top-12 dark:bg-dark-gray shadow-sm"
+        class="p-4 flex flex-col gap-4 w-[192px] rounded-xl absolute right-1 top-12 bg-white dark:bg-dark-gray shadow-sm"
       >
         <p class="text-medium-gray text-body-l" (click)="selectOption('edit')">
           Edit Board
