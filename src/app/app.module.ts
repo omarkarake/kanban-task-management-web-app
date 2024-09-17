@@ -7,6 +7,7 @@ import { ButtonlComponent } from './components/buttons/buttonl/buttonl.component
 import { ButtonseComponent } from './components/buttons/buttonse/buttonse.component';
 import { ButtonsdeComponent } from './components/buttons/buttonsde/buttonsde.component';
 import { SubtaskCheckboxComponent } from './components/subtask-checkbox/subtask-checkbox.component';
+import { InputComponent } from './components/input/input.component';
 
 @NgModule({
   declarations: [
@@ -14,7 +15,8 @@ import { SubtaskCheckboxComponent } from './components/subtask-checkbox/subtask-
     ButtonlComponent,
     ButtonseComponent,
     ButtonsdeComponent,
-    SubtaskCheckboxComponent
+    SubtaskCheckboxComponent,
+    InputComponent
   ],
   imports: [
     BrowserModule,
