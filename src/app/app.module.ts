@@ -10,6 +10,8 @@ import { SubtaskCheckboxComponent } from './components/subtask-checkbox/subtask-
 import { InputComponent } from './components/input/input.component';
 import { DropdownComponent } from './components/dropdown/dropdown.component';
 import { NavigationPhoneComponent } from './layout/navigation-phone/navigation-phone.component';
+import { NavigationLargeComponent } from './layout/navigation-large/navigation-large.component';
+import { ButtonaddComponent } from './components/buttons/buttonadd/buttonadd.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +22,9 @@ import { NavigationPhoneComponent } from './layout/navigation-phone/navigation-p
     SubtaskCheckboxComponent,
     InputComponent,
     DropdownComponent,
-    NavigationPhoneComponent
+    NavigationPhoneComponent,
+    NavigationLargeComponent,
+    ButtonaddComponent
   ],
   imports: [
     BrowserModule,
