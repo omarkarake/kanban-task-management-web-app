@@ -1,29 +1,102 @@
-<div
-  class="py-5 px-4 flex items-center justify-between bg-white dark:bg-dark-gray md:hidden"
->
-  <div class="flex items-center gap-4">
-    <div><img src="assets/logo-mobile.svg" alt="logo-mobile" /></div>
-    <div class="flex items-center gap-2">
-      <p>Platform Launch</p>
-      <img src="assets/icon-chevron-down.svg" alt="icon-chevron-down" />
+<div class="relative">
+  <div
+    class="py-5 px-4 flex items-center justify-between bg-white dark:bg-dark-gray md:hidden"
+  >
+    <div class="flex items-center gap-4">
+      <div><img src="assets/logo-mobile.svg" alt="logo-mobile" /></div>
+      <div class="flex items-center gap-2" (click)="toggleDropDown()">
+        <p class="text-black dark:text-white">{{items[selectedItemIndex]}}</p>
+        <img
+          [src]="
+            !dropDownOpen
+              ? 'assets/icon-chevron-down.svg'
+              : 'assets/icon-chevron-up.svg'
+          "
+          alt="icon-board"
+        />
+      </div>
+    </div>
+
+    <div class="flex items-center gap-4">
+      <div
+        class="w-12 px-[18px] py-[10px] bg-main-purple bg-opacity-25 rounded-3xl"
+      >
+        <img
+          src="assets/icon-add-task-mobile.svg"
+          alt="icon-add-task-mobile"
+          class="w-3 h-3"
+        />
+      </div>
+      <div>
+        <img
+          src="assets/icon-vertical-ellipsis.svg"
+          alt="icon-vertical-ellipsis"
+        />
+      </div>
     </div>
   </div>
-
-  <div class="flex items-center gap-4">
-    <div
-      class="w-12 px-[18px] py-[10px] bg-main-purple bg-opacity-25 rounded-3xl"
-    >
-      <img
-        src="assets/icon-add-task-mobile.svg"
-        alt="icon-add-task-mobile"
-        class="w-3 h-3"
-      />
-    </div>
+  <div
+    class="w-[264px] rounded-lg p-4 absolute left-[54px] mt-4"
+    *ngIf="dropDownOpen"
+  >
     <div>
-      <img
-        src="assets/icon-vertical-ellipsis.svg"
-        alt="icon-vertical-ellipsis"
-      />
+      <div class="ml-[34px] mb-[5px]">
+        <p class="text-body-m text-medium-gray">ALL BOARDS (3)</p>
+      </div>
+      <div
+        *ngFor="let item of items; let i = index"
+        class="md:w-[240px] lg:w-[276px] px-8 py-[14px] rounded-r-[100px] flex items-center gap-4 cursor-pointer"
+        [ngClass]="{
+          'bg-main-purple': selectedItemIndex === i,
+          'bg-transparent': selectedItemIndex !== i
+        }"
+        (click)="selectItem(i)"
+      >
+        <img
+          [src]="
+            selectedItemIndex === i
+              ? 'assets/icon-board-white.svg'
+              : i === items.length - 1
+              ? 'assets/icon-board-blue.svg'
+              : 'assets/icon-board.svg'
+          "
+          alt="icon-board"
+        />
+        <p
+          class="text-heading-m"
+          [ngClass]="{
+              'text-body-m !text-main-purple': i === items.length - 1 && selectedItemIndex !== i,
+              'text-body-m text-medium-gray': selectedItemIndex !== i,
+              'text-body-m !text-white': selectedItemIndex === i,
+          }"
+        >
+          {{ item }}
+        </p>
+      </div>
+    </div>
+    <div class="flex flex-col gap-4">
+      <div
+        class="w-[100%] bg-light-gray dark:bg-very-dark-grey py-[14px] rounded-md flex items-center justify-center mx-auto"
+      >
+        <div class="flex items-center gap-[23px]">
+          <div>
+            <img src="assets/icon-light-theme.svg" alt="icon-light-theme" />
+          </div>
+          <div
+            class="w-10 h-5 rounded-xl bg-main-purple p-[3px] flex items-center cursor-pointer"
+            [ngClass]="{
+              'justify-end': (isDarkMode | async),
+              'justify-start': !(isDarkMode | async)
+            }"
+            (click)="toggleDarkMode()"
+          >
+            <div class="w-[14px] h-[14px] bg-white rounded-full"></div>
+          </div>
+          <div>
+            <img src="assets/icon-dark-theme.svg" alt="icon-dark-theme" />
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
