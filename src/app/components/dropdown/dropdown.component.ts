@@ -13,6 +13,7 @@ export class DropdownComponent {
   constructor() {}
   selectOption(option: string) {
     this.value = option;
+    this.dropDownActive = false;
   }
   toggleDropDown() {
     this.dropDownActive = !this.dropDownActive;
