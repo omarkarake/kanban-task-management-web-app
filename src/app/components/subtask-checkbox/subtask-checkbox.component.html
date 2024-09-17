@@ -1,0 +1,22 @@
+<div
+  class="p-3 w-[255px] bg-light-gray rounded-[4px] flex items-center hover:bg-main-purple hover:bg-opacity-25 cursor-pointer {{
+    additionCss
+  }}"
+  (click)="toggleCheck()"
+>
+  <div class="flex items-center gap-4">
+    <div
+      class="w-4 h-4 bg-white border-[2px] border-medium-gray border-opacity-30 flex items-center justify-center rounded-[4px] {{
+        isChecked ? 'bg-main-purple' : ''
+      }}"
+      [ngClass]="{ 'bg-main-purple': isChecked, 'bg-white': !isChecked }"
+    >
+      <div><img src="assets/icon-check.svg" alt="icon-check" /></div>
+    </div>
+    <div>
+      <p
+      [ngClass]="{ 'line-through': isChecked }"
+      >Idle</p>
+    </div>
+  </div>
+</div>

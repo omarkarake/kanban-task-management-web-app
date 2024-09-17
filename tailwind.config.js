@@ -23,12 +23,12 @@ module.exports = {
         "plus-jakarta": ["Plus Jakarta Sans", "sans-serif"],
       },
       fontSize: {
-        "heading-xl": ["24px", { lineHeight: "30px", fontWeight: "700" }], // Bold
-        "heading-l": ["18px", { lineHeight: "23px", fontWeight: "700" }], // Bold
-        "heading-m": ["15px", { lineHeight: "19px", fontWeight: "700" }], // Bold
-        "heading-s": ["12px", { lineHeight: "15px", fontWeight: "700" }], // Bold
-        "body-l": ["13px", { lineHeight: "23px", fontWeight: "500" }], // Medium
-        "body-m": ["12px", { lineHeight: "15px", fontWeight: "700" }], // Bold
+        "heading-xl": ["24px", { lineHeight: "30px", fontWeight: "700" }],
+        "heading-l": ["18px", { lineHeight: "23px", fontWeight: "700" }],
+        "heading-m": ["15px", { lineHeight: "19px", fontWeight: "700" }],
+        "heading-s": ["12px", { lineHeight: "15px", fontWeight: "700" }],
+        "body-l": ["13px", { lineHeight: "23px", fontWeight: "500" }],
+        "body-m": ["12px", { lineHeight: "15px", fontWeight: "700" }],
       },
       letterSpacing: {
         "heading-s": "2.4px", // Custom kerning for Heading (S)
