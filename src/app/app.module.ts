@@ -9,6 +9,7 @@ import { ButtonsdeComponent } from './components/buttons/buttonsde/buttonsde.com
 import { SubtaskCheckboxComponent } from './components/subtask-checkbox/subtask-checkbox.component';
 import { InputComponent } from './components/input/input.component';
 import { DropdownComponent } from './components/dropdown/dropdown.component';
+import { NavigationPhoneComponent } from './layout/navigation-phone/navigation-phone.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { DropdownComponent } from './components/dropdown/dropdown.component';
     ButtonsdeComponent,
     SubtaskCheckboxComponent,
     InputComponent,
-    DropdownComponent
+    DropdownComponent,
+    NavigationPhoneComponent
   ],
   imports: [
     BrowserModule,
