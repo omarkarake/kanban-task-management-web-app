@@ -3,9 +3,11 @@
 >
   <!-- navigation and sidebar for mobile phone -->
   <div
-    class="top-0 absolute w-full bg-white dark:bg-dark-gray md:hidden border-b-[1px] border-light-gray border-opacity-10"
+    class="top-0 absolute w-full bg-white dark:bg-dark-gray md:hidden border-b-[1px] border-light-gray border-opacity-10 z-10"
   >
-    <app-navigation-phone></app-navigation-phone>
+    <app-navigation-phone
+      (toggleDropDownBackdrop)="toggleDropDownBackdrop()"
+    ></app-navigation-phone>
   </div>
 
   <!-- navigation and sidebar layout and main for large device -->
@@ -27,13 +29,19 @@
       <div
         class="absolute top-0 right-0 w-full border-b-[1px] border-light-gray border-opacity-10 z-30"
       >
-        <app-navigation-large></app-navigation-large>
+        <app-navigation-large
+          (toggleDropDownBackdropLarge)="toggleDropDownBackdropLarge()"
+        ></app-navigation-large>
       </div>
 
       <!-- Main content for both large and mobile devices -->
       <div
-        class="w-full h-full pt-[80px] overflow-y-scroll overflow-x-scroll relative custom-scrollbar"
+        class="w-full h-full pt-[65px] overflow-y-scroll overflow-x-scroll relative custom-scrollbar"
       >
+        <div
+          class="w-full h-full bg-black opacity-50 absolute z-0"
+          *ngIf="backDropFilterLarge"
+        ></div>
         <div class="flex flex-col items-center justify-center h-full gap-6">
           <p class="text-center text-black dark:text-white">
             This board is empty. Create a new column to get started.
@@ -55,7 +63,13 @@
   </div>
 
   <!-- this div should be main for the mobile device -->
-  <div class="w-full h-full md:hidden overflow-y-scroll overflow-x-scroll custom-scrollbar">
+  <div
+    class="w-full h-full md:hidden overflow-y-scroll overflow-x-scroll custom-scrollbar relative"
+  >
+    <div
+      class="w-full h-full bg-black opacity-50 absolute z-0"
+      *ngIf="backDropFilter"
+    ></div>
     <div class="flex flex-col items-center justify-center h-full gap-6">
       <p class="text-center text-black dark:text-white">
         This board is empty. Create a new column to get started.

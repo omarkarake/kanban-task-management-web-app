@@ -9,6 +9,8 @@ import { LargenavService } from './services/navigation/largenav.service';
 })
 export class AppComponent {
   layoutSideBarOpen: boolean = false;
+  backDropFilter: boolean = false;
+  backDropFilterLarge: boolean = false;
   constructor(
     private themeService: ThemeService,
     private largenavService: LargenavService
@@ -21,5 +23,13 @@ export class AppComponent {
   triggerSideBar() {
     this.layoutSideBarOpen = !this.layoutSideBarOpen;
     this.largenavService.toggleIconLogo.next(this.layoutSideBarOpen);
+  }
+
+  toggleDropDownBackdrop() {
+    this.backDropFilter = !this.backDropFilter;
+  }
+
+  toggleDropDownBackdropLarge() {
+    this.backDropFilterLarge = !this.backDropFilterLarge;
   }
 }

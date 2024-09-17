@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { ThemeService } from '../../services/theme/theme.service';
 import { Observable } from 'rxjs';
 
@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
   styleUrl: './navigation-phone.component.css',
 })
 export class NavigationPhoneComponent {
+  @Output() toggleDropDownBackdrop = new EventEmitter<void>();
   items = ['Platform Launch', 'Other Item', 'Roadmap', '+ Create New Board'];
   selectedItemIndex: number = 0;
   isDarkMode: Observable<boolean> = this.themeService.isDarkMode$;
@@ -25,10 +26,14 @@ export class NavigationPhoneComponent {
   }
   toggleDropDown(): void {
     this.dropDownOpen = !this.dropDownOpen;
+    this.toggleDropDownBackdrop.emit();
   }
   toggleDropDownEllipsis(): void {
     this.dropDownActiveEllipsis = !this.dropDownActiveEllipsis;
+    this.toggleDropDownBackdrop.emit();
   }
+
+
 
   selectOption(option: string): void {
     if (option === 'edit') {
