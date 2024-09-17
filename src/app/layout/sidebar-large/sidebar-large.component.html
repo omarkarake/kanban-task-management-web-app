@@ -1,5 +1,5 @@
 <div
-  class="w-[300px] py-8 dark:bg-dark-gray h-full flex flex-col justify-between"
+  class="md:w-[260px] lg:w-[300px] py-8 dark:bg-dark-gray h-full flex flex-col justify-between"
 >
   <div>
     <div class="ml-[34px]">
@@ -17,9 +17,9 @@
     </div>
     <div
       *ngFor="let item of items; let i = index"
-      class="w-[276px] px-8 py-[14px] rounded-r-[100px] flex items-center gap-4 cursor-pointer"
+      class="md:w-[240px] lg:w-[276px] px-8 py-[14px] rounded-r-[100px] flex items-center gap-4 cursor-pointer"
       [ngClass]="{
-        'w-[276px] bg-main-purple': selectedItemIndex === i,
+        'bg-main-purple': selectedItemIndex === i,
         'bg-transparent': selectedItemIndex !== i
       }"
       (click)="selectItem(i)"
