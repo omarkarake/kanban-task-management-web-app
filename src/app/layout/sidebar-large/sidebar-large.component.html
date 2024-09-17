@@ -1,7 +1,16 @@
-<div class="w-[300px] py-8 dark:bg-very-dark-grey h-full">
+<div
+  class="w-[300px] py-8 dark:bg-dark-gray h-full flex flex-col justify-between"
+>
   <div>
     <div class="ml-[34px]">
-      <img src="assets/logo-dark.svg" alt="logo-dark" />
+      <img
+        [src]="
+          (isDarkMode | async)
+            ? 'assets/logo-light.svg'
+            : 'assets/logo-dark.svg'
+        "
+        alt="logo"
+      />
     </div>
     <div class="ml-[34px] mt-[54px] mb-[5px]">
       <p class="text-body-m text-medium-gray">ALL BOARDS (3)</p>
@@ -26,7 +35,7 @@
         alt="icon-board"
       />
       <p
-      class="text-heading-m"
+        class="text-heading-m"
         [ngClass]="{
             'text-body-m !text-main-purple': i === items.length - 1 && selectedItemIndex !== i,
             'text-body-m text-medium-gray': selectedItemIndex !== i,
@@ -35,6 +44,41 @@
       >
         {{ item }}
       </p>
+    </div>
+  </div>
+  <div class="flex flex-col gap-4">
+    <div
+      class="w-[80%] bg-light-gray dark:bg-very-dark-grey py-[14px] rounded-md flex items-center justify-center mx-auto"
+    >
+      <div class="flex items-center gap-[23px]">
+        <div>
+          <img src="assets/icon-light-theme.svg" alt="icon-light-theme" />
+        </div>
+        <div
+          class="w-10 h-5 rounded-xl bg-main-purple p-[3px] flex items-center cursor-pointer"
+          [ngClass]="{
+            'justify-end': (isDarkMode | async),
+            'justify-start': !(isDarkMode | async)
+          }"
+          (click)="toggleDarkMode()"
+        >
+          <div class="w-[14px] h-[14px] bg-white rounded-full"></div>
+        </div>
+        <div>
+          <img src="assets/icon-dark-theme.svg" alt="icon-dark-theme" />
+        </div>
+      </div>
+    </div>
+    <div class="w-[80%] mx-auto flex items-center gap-4">
+      <img
+        [src]="
+          (isDarkMode | async)
+            ? 'assets/icon-show-sidebar-gray.svg'
+            : 'assets/icon-show-sidebar-light.svg'
+        "
+        alt="show-show"
+      />
+      <p class="text-heading-m text-medium-gray">Hide Sidebar</p>
     </div>
   </div>
 </div>
