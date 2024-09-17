@@ -1,14 +1,22 @@
-<div class="w-full bg-light-gray min-h-screen dark:bg-very-dark-grey relative">
-  <div class="sticky bg-white dark:bg-dark-gray">
+<div class="w-full bg-light-gray h-screen dark:bg-very-dark-grey relative">
+  <!-- navigation and sidebar for mobile phone -->
+  <div class="sticky bg-white dark:bg-dark-gray md:hidden">
     <app-navigation-phone></app-navigation-phone>
   </div>
-  <div></div>
-  <!-- <app-buttonl></app-buttonl>
-  <app-buttonse></app-buttonse>
-  <app-buttonsde></app-buttonsde>
-  <app-subtask-checkbox></app-subtask-checkbox>
-  <app-input></app-input>
-  <app-dropdown></app-dropdown> -->
-  <!-- <app-navigation-large></app-navigation-large>
-  <app-sidebar-large></app-sidebar-large> -->
+
+  <!-- navigation and sidebar layout and main -->
+  <div class="hidden md:flex">
+    <div class="md:w-[260px] lg:w-[300px] h-screen">
+      <app-sidebar-large></app-sidebar-large>
+    </div>
+    <div class="flex-1 h-screen relative">
+      <div class="absolute top-0 right-0 w-full">
+        <app-navigation-large></app-navigation-large>
+      </div>
+
+      <!-- this div should be main for the large device and mobile device -->
+      <div class="w-full h-full"></div>
+    </div>
+    <!-- // I want this div to take all the amount of space left, width and height -->
+  </div>
 </div>
