@@ -1,0 +1,29 @@
+<div class="flex w-[237px] flex-col gap-2 relative">
+  <div>
+    <p class="text-body-m text-medium-gray dark:text-white">{{ label }}</p>
+  </div>
+  <div
+    class="py-2 px-4 rounded-[4px] border-medium-gray border-[1px] flex items-center justify-between cursor-pointer"
+    [ngClass]="{ '!border-main-purple': dropDownActive }"
+    (click)="toggleDropDown()"
+  >
+    <p class="text-black dark:text-white text-body-l">{{ value }}</p>
+    <img src="assets/icon-chevron-down.svg" alt="icon-chevron-down" />
+  </div>
+  <div
+    class="w-full dark:bg-very-dark-grey rounded-lg absolute bottom-[-125px]"
+    *ngIf="dropDownActive"
+  >
+    <ul
+      class="rounded-[4px] dark:border-[1px] flex flex-col gap-2 dark:border-dark-gray p-4"
+    >
+      <li
+        class="text-body-l dark:text-medium-gray cursor-pointer hover:bg-light-gray dark:hover:bg-dark-gray"
+        *ngFor="let option of options"
+        (click)="selectOption(option)"
+      >
+        {{ option }}
+      </li>
+    </ul>
+  </div>
+</div>
