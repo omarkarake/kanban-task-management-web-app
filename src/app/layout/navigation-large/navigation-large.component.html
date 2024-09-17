@@ -1,6 +1,8 @@
 <div class="py-[29px] px-6 md:flex items-center justify-between hidden">
   <div>
-    <p class="text-heading-xl text-black dark:text-white">Platform Launch</p>
+    <p class="text-heading-xl text-black dark:text-white">
+      {{ header$ | async }}
+    </p>
   </div>
   <div class="flex items-center gap-4">
     <app-buttonadd
