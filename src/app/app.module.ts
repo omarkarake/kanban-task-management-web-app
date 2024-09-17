@@ -12,6 +12,7 @@ import { DropdownComponent } from './components/dropdown/dropdown.component';
 import { NavigationPhoneComponent } from './layout/navigation-phone/navigation-phone.component';
 import { NavigationLargeComponent } from './layout/navigation-large/navigation-large.component';
 import { ButtonaddComponent } from './components/buttons/buttonadd/buttonadd.component';
+import { SidebarLargeComponent } from './layout/sidebar-large/sidebar-large.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { ButtonaddComponent } from './components/buttons/buttonadd/buttonadd.com
     DropdownComponent,
     NavigationPhoneComponent,
     NavigationLargeComponent,
-    ButtonaddComponent
+    ButtonaddComponent,
+    SidebarLargeComponent
   ],
   imports: [
     BrowserModule,
