@@ -13,6 +13,7 @@ import { NavigationPhoneComponent } from './layout/navigation-phone/navigation-p
 import { NavigationLargeComponent } from './layout/navigation-large/navigation-large.component';
 import { ButtonaddComponent } from './components/buttons/buttonadd/buttonadd.component';
 import { SidebarLargeComponent } from './layout/sidebar-large/sidebar-large.component';
+import { HomeComponent } from './pages/home/home.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { SidebarLargeComponent } from './layout/sidebar-large/sidebar-large.comp
     NavigationPhoneComponent,
     NavigationLargeComponent,
     ButtonaddComponent,
-    SidebarLargeComponent
+    SidebarLargeComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,

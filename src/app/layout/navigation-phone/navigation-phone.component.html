@@ -5,7 +5,7 @@
     <div class="flex items-center gap-4">
       <div><img src="assets/logo-mobile.svg" alt="logo-mobile" /></div>
       <div class="flex items-center gap-2" (click)="toggleDropDown()">
-        <p class="text-black dark:text-white">{{items[selectedItemIndex]}}</p>
+        <p class="text-black dark:text-white">{{ items[selectedItemIndex] }}</p>
         <img
           [src]="
             !dropDownOpen
@@ -27,16 +27,31 @@
           class="w-3 h-3"
         />
       </div>
-      <div>
+      <div class="relative cursor-pointer">
         <img
           src="assets/icon-vertical-ellipsis.svg"
           alt="icon-vertical-ellipsis"
+          (click)="toggleDropDownEllipsis()"
         />
+        <div
+          *ngIf="dropDownActiveEllipsis"
+          class="p-4 flex flex-col gap-4 w-[192px] bg-white dark:bg-very-dark-grey rounded-xl absolute right-1 top-12 shadow-sm"
+        >
+          <p
+            class="text-medium-gray text-body-l"
+            (click)="selectOption('edit')"
+          >
+            Edit Board
+          </p>
+          <p class="text-red text-body-l" (click)="selectOption('delete')">
+            Delete Board
+          </p>
+        </div>
       </div>
     </div>
   </div>
   <div
-    class="w-[264px] rounded-lg p-4 absolute left-[54px] mt-4"
+    class="w-[264px] rounded-lg p-4 absolute left-[54px] mt-4 bg-white dark:bg-dark-gray shadow-sm"
     *ngIf="dropDownOpen"
   >
     <div>

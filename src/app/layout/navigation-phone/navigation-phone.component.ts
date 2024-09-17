@@ -12,6 +12,8 @@ export class NavigationPhoneComponent {
   selectedItemIndex: number = 0;
   isDarkMode: Observable<boolean> = this.themeService.isDarkMode$;
   dropDownOpen: boolean = false;
+  dropDownActiveEllipsis: boolean = false;
+
   constructor(private themeService: ThemeService) {}
 
   selectItem(index: number): void {
@@ -23,5 +25,21 @@ export class NavigationPhoneComponent {
   }
   toggleDropDown(): void {
     this.dropDownOpen = !this.dropDownOpen;
+  }
+  toggleDropDownEllipsis(): void {
+    this.dropDownActiveEllipsis = !this.dropDownActiveEllipsis;
+  }
+
+  selectOption(option: string): void {
+    if (option === 'edit') {
+      // Handle edit board logic here
+      console.log('Edit Board selected');
+    } else if (option === 'delete') {
+      // Handle delete board logic here
+      console.log('Delete Board selected');
+    }
+
+    // Close the dropdown after selection
+    this.toggleDropDownEllipsis();
   }
 }
