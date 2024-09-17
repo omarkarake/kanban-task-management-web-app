@@ -1,8 +1,25 @@
-<div class="py-[15px] px-6 md:flex items-center justify-between hidden bg-white dark:bg-dark-gray">
-  <div>
-    <p class="text-heading-xl text-black dark:text-white">
-      {{ header$ | async }}
-    </p>
+<div
+  class="px-6 md:flex items-center justify-between hidden bg-white dark:bg-dark-gray"
+>
+  <div class="flex items-center">
+    <div
+      class="pr-8 border-r-[1px] border-lines-light dark:border-lines-dark py-[15px] h-full"
+      *ngIf="toggleLogo$ | async"
+    >
+      <img
+        [src]="
+          (isDarkMode | async)
+            ? 'assets/logo-light.svg'
+            : 'assets/logo-dark.svg'
+        "
+        alt="logo"
+      />
+    </div>
+    <div class="py-[15px]" [ngClass]="{ 'ml-8': toggleLogo$ | async }">
+      <p class="text-heading-xl text-black dark:text-white pt-1">
+        {{ header$ | async }}
+      </p>
+    </div>
   </div>
   <div class="flex items-center gap-4">
     <app-buttonadd
@@ -14,13 +31,18 @@
         src="assets/icon-vertical-ellipsis.svg"
         alt="icon-vertical-ellipsis"
         (click)="toggleDropDown()"
+        class="cursor-pointer z-50"
       />
       <div
-      *ngIf="dropDownActive"
+        *ngIf="dropDownActive"
         class="p-4 flex flex-col gap-4 w-[192px] rounded-xl absolute right-1 top-12 dark:bg-dark-gray shadow-sm"
       >
-        <p class="text-medium-gray text-body-l" (click)="selectOption('edit')">Edit Board</p>
-        <p class="text-red text-body-l" (click)="selectOption('delete')">Delete Board</p>
+        <p class="text-medium-gray text-body-l" (click)="selectOption('edit')">
+          Edit Board
+        </p>
+        <p class="text-red text-body-l" (click)="selectOption('delete')">
+          Delete Board
+        </p>
       </div>
     </div>
   </div>

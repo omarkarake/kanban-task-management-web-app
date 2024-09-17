@@ -1,3 +1,5 @@
+import { Observable } from 'rxjs';
+import { ThemeService } from '../../services/theme/theme.service';
 import { LargenavService } from './../../services/navigation/largenav.service';
 import { Component } from '@angular/core';
 
@@ -8,8 +10,13 @@ import { Component } from '@angular/core';
 })
 export class NavigationLargeComponent {
   header$ = this.largenavService.header$;
+  toggleLogo$ = this.largenavService.togoLogo$;
   dropDownActive: boolean = false;
-  constructor(private largenavService: LargenavService) {}
+  isDarkMode: Observable<boolean> = this.themeService.isDarkMode$;
+  constructor(
+    private largenavService: LargenavService,
+    private themeService: ThemeService
+  ) {}
   toggleDropDown(): void {
     this.dropDownActive = !this.dropDownActive;
   }

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ThemeService } from './services/theme/theme.service';
+import { LargenavService } from './services/navigation/largenav.service';
 
 @Component({
   selector: 'app-root',
@@ -8,7 +9,10 @@ import { ThemeService } from './services/theme/theme.service';
 })
 export class AppComponent {
   layoutSideBarOpen: boolean = false;
-  constructor(public themeService: ThemeService) {}
+  constructor(
+    private themeService: ThemeService,
+    private largenavService: LargenavService
+  ) {}
 
   toggleTheme() {
     this.themeService.toggleTheme();
@@ -16,5 +20,6 @@ export class AppComponent {
 
   triggerSideBar() {
     this.layoutSideBarOpen = !this.layoutSideBarOpen;
+    this.largenavService.toggleIconLogo.next(this.layoutSideBarOpen);
   }
 }
