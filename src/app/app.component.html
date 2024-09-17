@@ -1,22 +1,61 @@
-<div class="w-full bg-light-gray h-screen dark:bg-very-dark-grey relative">
+<div
+  class="w-full bg-light-gray h-dvh dark:bg-very-dark-grey relative transition"
+>
   <!-- navigation and sidebar for mobile phone -->
-  <div class="sticky bg-white dark:bg-dark-gray md:hidden">
+  <div class="top-0 absolute w-full bg-white dark:bg-dark-gray md:hidden border-b-[1px] border-light-gray border-opacity-10">
     <app-navigation-phone></app-navigation-phone>
   </div>
 
-  <!-- navigation and sidebar layout and main -->
+  <!-- navigation and sidebar layout and main for large device -->
   <div class="hidden md:flex">
-    <div class="md:w-[260px] lg:w-[300px] h-screen">
+  <div
+    class="h-screen transition-all ease-in-out duration-300 border-r-[1px] border-light-gray border-opacity-10"
+    [ngClass]="{
+      'md:w-[260px] lg:w-[300px]': !layoutSideBarOpen,
+      'w-0 overflow-hidden': layoutSideBarOpen
+    }"
+  >
+    <div *ngIf="!layoutSideBarOpen" class="h-full">
       <app-sidebar-large></app-sidebar-large>
     </div>
-    <div class="flex-1 h-screen relative">
-      <div class="absolute top-0 right-0 w-full">
-        <app-navigation-large></app-navigation-large>
-      </div>
-
-      <!-- this div should be main for the large device and mobile device -->
-      <div class="w-full h-full"></div>
+  </div>
+  <div class="flex-1 h-screen relative">
+    <div class="absolute top-0 right-0 w-full border-b-[1px] border-light-gray border-opacity-10">
+      <app-navigation-large></app-navigation-large>
     </div>
-    <!-- // I want this div to take all the amount of space left, width and height -->
+
+    <!-- Main content for both large and mobile devices -->
+    <div class="w-full h-full pt-[80px] overflow-y-scroll overflow-x-scroll relative">
+      <div class="flex flex-col items-center justify-center h-full gap-6">
+        <p class="text-center text-black dark:text-white">
+          This board is empty. Create a new column to get started.
+        </p>
+        <app-buttonadd
+          [text]="'Add New Column'"
+          [additionalClasses]="'!text-white !bg-main-purple'"
+        ></app-buttonadd>
+      </div>
+      <div
+        class="w-14 h-12 bg-main-purple flex items-center justify-center rounded-r-[100px] absolute bottom-[32px] left-0 cursor-pointer z-10"
+        (click)="triggerSideBar()"
+      >
+        <img src="assets/icon-show-sidebar.svg" alt="icon-show-sidebar" />
+      </div>
+    </div>
+  </div>
+</div>
+
+
+  <!-- this div should be main for the mobile device -->
+  <div class="w-full h-full md:hidden overflow-y-scroll overflow-x-scroll">
+    <div class="flex flex-col items-center justify-center h-full">
+      <p class="text-center text-black dark:text-white">
+        This board is empty. Create a new column to get started.
+      </p>
+      <app-buttonadd
+        [text]="'Add New Column'"
+        [additionalClasses]="'!text-white !bg-main-purple'"
+      ></app-buttonadd>
+    </div>
   </div>
 </div>

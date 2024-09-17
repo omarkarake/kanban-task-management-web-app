@@ -7,9 +7,14 @@ import { ThemeService } from './services/theme/theme.service';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
+  layoutSideBarOpen: boolean = false;
   constructor(public themeService: ThemeService) {}
 
   toggleTheme() {
     this.themeService.toggleTheme();
+  }
+
+  triggerSideBar() {
+    this.layoutSideBarOpen = !this.layoutSideBarOpen;
   }
 }
