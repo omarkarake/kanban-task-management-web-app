@@ -8,5 +8,21 @@ import { Component } from '@angular/core';
 })
 export class NavigationLargeComponent {
   header$ = this.largenavService.header$;
+  dropDownActive: boolean = false;
   constructor(private largenavService: LargenavService) {}
+  toggleDropDown(): void {
+    this.dropDownActive = !this.dropDownActive;
+  }
+  selectOption(option: string): void {
+    if (option === 'edit') {
+      // Handle edit board logic here
+      console.log('Edit Board selected');
+    } else if (option === 'delete') {
+      // Handle delete board logic here
+      console.log('Delete Board selected');
+    }
+
+    // Close the dropdown after selection
+    this.toggleDropDown();
+  }
 }

@@ -9,6 +9,19 @@
       [text]="'Add New Task'"
       [additionalClasses]="'!text-white'"
     ></app-buttonadd>
-    <img src="assets/icon-vertical-ellipsis.svg" alt="icon-vertical-ellipsis" />
+    <div class="relative cursor-pointer">
+      <img
+        src="assets/icon-vertical-ellipsis.svg"
+        alt="icon-vertical-ellipsis"
+        (click)="toggleDropDown()"
+      />
+      <div
+      *ngIf="dropDownActive"
+        class="p-4 flex flex-col gap-4 w-[192px] rounded-xl absolute right-1 top-10 shadow-sm"
+      >
+        <p class="text-medium-gray text-body-l" (click)="selectOption('edit')">Edit Board</p>
+        <p class="text-red text-body-l" (click)="selectOption('delete')">Delete Board</p>
+      </div>
+    </div>
   </div>
 </div>

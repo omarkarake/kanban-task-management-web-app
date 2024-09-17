@@ -1,4 +1,6 @@
 import { Component, Input } from '@angular/core';
+import { ThemeService } from '../../../services/theme/theme.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-buttonadd',
@@ -8,4 +10,6 @@ import { Component, Input } from '@angular/core';
 export class ButtonaddComponent {
   @Input() text: string = 'ButtonS';
   @Input() additionalClasses: string = '';
+  isDarkMode: Observable<boolean> = this.themeService.isDarkMode$;
+  constructor(private themeService: ThemeService) {}
 }
