@@ -33,6 +33,24 @@
     <!-- You can add the form or content for adding a task here -->
     <!-- <app-add-task-form></app-add-task-form> -->
   </app-modal>
+  <app-modal
+    [isOpen]="(modalService.modalState$ | async) === 'edit-board'"
+    [modalTitle]="'Add New Task'"
+    (close)="modalService.closeModal()"
+  >
+  <p>edit board</p>
+    <!-- You can add the form or content for adding a task here -->
+    <!-- <app-add-task-form></app-add-task-form> -->
+  </app-modal>
+  <app-modal
+    [isOpen]="(modalService.modalState$ | async) === 'delete-board'"
+    [modalTitle]="'Add New Task'"
+    (close)="modalService.closeModal()"
+  >
+  <p>delete board</p>
+    <!-- You can add the form or content for adding a task here -->
+    <!-- <app-add-task-form></app-add-task-form> -->
+  </app-modal>
   <!-- navigation and sidebar for mobile phone -->
   <div
     class="top-0 absolute w-full bg-white dark:bg-dark-gray md:hidden border-b-[1px] border-light-gray border-opacity-10 z-10"

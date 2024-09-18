@@ -27,19 +27,17 @@ export class NavigationLargeComponent {
   }
   selectOption(option: string): void {
     if (option === 'edit') {
-      // Handle edit board logic here
-      console.log('Edit Board selected');
+      this.modalService.openModal('edit-board');
     } else if (option === 'delete') {
-      // Handle delete board logic here
-      console.log('Delete Board selected');
+      this.modalService.openModal('delete-board');
     }
 
     // Close the dropdown after selection
     this.toggleDropDown();
   }
 
-  addNewTask() {
+  openModal(modalType: string) {
     // this.openModalForAddTask.emit();
-    this.modalService.openModal('add-task');
+    this.modalService.openModal(modalType);
   }
 }
