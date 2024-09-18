@@ -165,9 +165,62 @@
     [isOpen]="(modalService.modalState$ | async) === 'edit-task'"
     (close)="modalService.closeModal()"
   >
-    <p>edit task</p>
-    <!-- You can add the form or content for adding a task here -->
-    <!-- <app-add-task-form></app-add-task-form> -->
+    <div class="flex flex-col gap-6">
+      <div>
+        <p class="text-heading-l text-black dark:text-white">Add New Task</p>
+      </div>
+      <div>
+        <app-input
+          [label]="'Title'"
+          [type]="'text'"
+          [placeholder]="'e.g. Take coffee break'"
+        ></app-input>
+      </div>
+      <div>
+        <app-input
+          [label]="'Description'"
+          [type]="'textarea'"
+          [placeholder]="
+            'e.g. It’s always good to take a break. This 15 minute break will recharge the batteries a little.'
+          "
+        ></app-input>
+      </div>
+      <div>
+        <p class="text-body-m text-medium-gray">Subtasks</p>
+        <div class="mt-2 flex flex-col gap-3">
+          <div class="w-full flex items-center justify-between">
+            <div class="w-[90%]">
+              <app-input-subtask
+                [type]="'text'"
+                [placeholder]="'e.g. Make coffee'"
+              ></app-input-subtask>
+            </div>
+            <div class="w-[10%] flex items-center justify-center">
+              <img
+                src="assets/icon-cross.svg"
+                alt="icon-cross"
+                class="cursor-pointer"
+              />
+            </div>
+          </div>
+          <div>
+            <app-buttonse
+              [text]="'+ Add New Subtask'"
+              [additionalClasses]="'!text-white !bg-main-purple'"
+            ></app-buttonse>
+          </div>
+        </div>
+      </div>
+      <div>
+        <app-dropdown [label]="'Status'"></app-dropdown>
+      </div>
+      <div>
+        <app-buttonse
+          [text]="'Edit Task'"
+          [additionalClasses]="'!text-white !bg-main-purple'"
+        ></app-buttonse>
+      </div>
+    </div>
   </app-modal>
 
   <!-- Modal for delete-task -->
