@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { ThemeService } from '../../services/theme/theme.service';
 import { Observable } from 'rxjs';
+import { ModalService } from '../../services/modal/modal.service';
 
 @Component({
   selector: 'app-navigation-phone',
@@ -15,7 +16,7 @@ export class NavigationPhoneComponent {
   dropDownOpen: boolean = false;
   dropDownActiveEllipsis: boolean = false;
 
-  constructor(private themeService: ThemeService) {}
+  constructor(private themeService: ThemeService, private modalService: ModalService) {}
 
   selectItem(index: number): void {
     this.selectedItemIndex = index;
@@ -31,6 +32,11 @@ export class NavigationPhoneComponent {
   toggleDropDownEllipsis(): void {
     this.dropDownActiveEllipsis = !this.dropDownActiveEllipsis;
     this.toggleDropDownBackdrop.emit();
+  }
+
+  openModal(modalType: string) {
+    // this.openModalForAddTask.emit();
+    this.modalService.openModal(modalType);
   }
 
 
