@@ -237,9 +237,21 @@
     [isOpen]="(modalService.modalState$ | async) === 'delete-board'"
     (close)="modalService.closeModal()"
   >
-    <p>delete board</p>
-    <!-- You can add the form or content for adding a task here -->
-    <!-- <app-add-task-form></app-add-task-form> -->
+    <div class="flex flex-col gap-6">
+      <p class="text-heading-l text-red">Delete this board?</p>
+      <p class="text-body-l text-medium-gray">
+        Are you sure you want to delete the ‘Platform Launch’ board? This action
+        will remove all columns and tasks and cannot be reversed.
+      </p>
+      <div class="flex items-center justify-between w-full">
+        <div class="w-[48%]">
+          <app-buttonsde [text]="'Delete'"></app-buttonsde>
+        </div>
+        <div class="w-[48%]">
+          <app-buttonse [text]="'Cancel'"></app-buttonse>
+        </div>
+      </div>
+    </div>
   </app-modal>
 
   <!-- Modal for edit task -->
@@ -310,9 +322,21 @@
     [isOpen]="(modalService.modalState$ | async) === 'delete-task'"
     (close)="modalService.closeModal()"
   >
-    <p>delete task</p>
-    <!-- You can add the form or content for adding a task here -->
-    <!-- <app-add-task-form></app-add-task-form> -->
+    <div class="flex flex-col gap-6">
+      <p class="text-heading-l text-red">Delete this task?</p>
+      <p class="text-body-l text-medium-gray">
+        Are you sure you want to delete the ‘Build settings UI’ task and its
+        subtasks? This action cannot be reversed.
+      </p>
+      <div class="flex items-center justify-between w-full">
+        <div class="w-[48%]">
+          <app-buttonsde [text]="'Delete'"></app-buttonsde>
+        </div>
+        <div class="w-[48%]">
+          <app-buttonse [text]="'Cancel'"></app-buttonse>
+        </div>
+      </div>
+    </div>
   </app-modal>
   <!-- navigation and sidebar for mobile phone -->
   <div
