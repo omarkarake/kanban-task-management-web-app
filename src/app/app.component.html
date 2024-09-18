@@ -9,7 +9,7 @@
 
   <!-- Example modals -->
   <app-modal
-    [isOpen]="isViewTaskModalOpen"
+  [isOpen]="(modalService.modalState$ | async) === 'view-task'"
     [modalTitle]="'View Task'"
     (close)="closeModal()"
   >
