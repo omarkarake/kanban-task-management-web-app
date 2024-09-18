@@ -26,10 +26,10 @@ export class AppComponent {
   }
 
   toggleDropDownBackdrop() {
-    this.backDropFilter = !this.backDropFilter;
+    // this.backDropFilter = !this.backDropFilter; // toggling backdrop filter
   }
 
   toggleDropDownBackdropLarge() {
-    this.backDropFilterLarge = !this.backDropFilterLarge;
+    // this.backDropFilterLarge = !this.backDropFilterLarge;
   }
 }

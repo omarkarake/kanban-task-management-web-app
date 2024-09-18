@@ -1,6 +1,11 @@
 <div
   class="w-full bg-light-gray h-dvh dark:bg-very-dark-grey relative transition custom-scrollbar"
 >
+  <!-- drop filter dark background for models -->
+  <div
+    class="min-w-full w-auto h-full bg-black opacity-50 absolute z-50"
+    *ngIf="backDropFilterLarge"
+  ></div>
   <!-- navigation and sidebar for mobile phone -->
   <div
     class="top-0 absolute w-full bg-white dark:bg-dark-gray md:hidden border-b-[1px] border-light-gray border-opacity-10 z-10"
@@ -35,8 +40,8 @@
       <div
         class="top-0 right-0 w-full border-b-[1px] border-light-gray border-opacity-10 z-30"
         [ngClass]="{
-          'absolute': !layoutSideBarOpen,
-          'fixed': layoutSideBarOpen
+          absolute: !layoutSideBarOpen,
+          fixed: layoutSideBarOpen
         }"
       >
         <app-navigation-large
@@ -45,12 +50,7 @@
       </div>
 
       <!-- Main content for both large and mobile devices -->
-      <div class="w-full h-full pt-[65px] overflow-x-scroll overflow-y-scroll relative">
-        <!-- drop filter dark background for models -->
-        <div
-          class="min-w-full w-auto h-full bg-black opacity-50 absolute z-0"
-          *ngIf="backDropFilterLarge"
-        ></div>
+      <div class="w-full h-full pt-[65px] overflow-x-scroll overflow-y-scroll">
         <div class="p-6 pr-6 flex gap-6">
           <app-column [title]="'todo'"></app-column>
           <app-column [title]="'doing'"></app-column>
