@@ -1,0 +1,33 @@
+<div class="w-[280px]">
+  <div class="flex items-center gap-3">
+    <div
+      class="w-[15px] h-[15px] bg-todo rounded-full"
+      [ngClass]="{
+        'bg-todo': title === 'todo',
+        'bg-main-purple': title === 'doing',
+        'bg-done': title === 'done'
+      }"
+    ></div>
+    <div class="text-heading-s text-medium-gray">
+      {{ title }} ({{ tasks.length }})
+    </div>
+  </div>
+  <div class="mt-6 flex flex-col gap-5">
+    <div
+      class="py-[23px] px-4 bg-white dark:bg-dark-gray rounded-lg shadow-md flex flex-col gap-2"
+    >
+      <p class="text-heading-m text-black dark:text-white">
+        Build UI for onboarding flow
+      </p>
+      <p class="text-body-m text-medium-gray">0 of 3 substasks</p>
+    </div>
+    <div
+      class="py-[23px] px-4 bg-white dark:bg-dark-gray rounded-lg shadow-md flex flex-col gap-2"
+    >
+      <p class="text-heading-m text-black dark:text-white">
+        Build UI for onboarding flow
+      </p>
+      <p class="text-body-m text-medium-gray">2 of 3 substasks</p>
+    </div>
+  </div>
+</div>

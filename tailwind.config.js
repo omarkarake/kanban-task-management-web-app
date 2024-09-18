@@ -18,6 +18,8 @@ module.exports = {
         white: "#FFFFFF",
         red: "#EA5555",
         "red-hover": "#FF9898",
+        todo: "#49C4E5",
+        done: "#67E2AE"
       },
       fontFamily: {
         "plus-jakarta": ["Plus Jakarta Sans", "sans-serif"],

@@ -14,6 +14,7 @@ import { NavigationLargeComponent } from './layout/navigation-large/navigation-l
 import { ButtonaddComponent } from './components/buttons/buttonadd/buttonadd.component';
 import { SidebarLargeComponent } from './layout/sidebar-large/sidebar-large.component';
 import { HomeComponent } from './pages/home/home.component';
+import { ColumnComponent } from './components/column/column.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { HomeComponent } from './pages/home/home.component';
     NavigationLargeComponent,
     ButtonaddComponent,
     SidebarLargeComponent,
-    HomeComponent
+    HomeComponent,
+    ColumnComponent
   ],
   imports: [
     BrowserModule,
