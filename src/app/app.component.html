@@ -33,10 +33,10 @@
               class="text-medium-gray text-body-l"
               (click)="selectOption('edit')"
             >
-              Edit Board
+              Edit Task
             </p>
             <p class="text-red text-body-l" (click)="selectOption('delete')">
-              Delete Board
+              Delete Task
             </p>
           </div>
         </div>
@@ -174,7 +174,7 @@
       </div>
       <div>
         <app-buttonse
-          [text]="'Create Task'"
+          [text]="'Create New Board'"
           [additionalClasses]="'!text-white !bg-main-purple'"
         ></app-buttonse>
       </div>
@@ -186,9 +186,50 @@
     [isOpen]="(modalService.modalState$ | async) === 'edit-board'"
     (close)="modalService.closeModal()"
   >
-    <p>edit board</p>
-    <!-- You can add the form or content for adding a task here -->
-    <!-- <app-add-task-form></app-add-task-form> -->
+    <div class="flex flex-col gap-6">
+      <div>
+        <p class="text-heading-l text-black dark:text-white">Edit Board</p>
+      </div>
+      <div>
+        <app-input
+          [label]="'Name'"
+          [type]="'text'"
+          [placeholder]="'e.g. Take coffee break'"
+        ></app-input>
+      </div>
+      <div>
+        <p class="text-body-m text-medium-gray">Columns</p>
+        <div class="mt-2 flex flex-col gap-3">
+          <div class="w-full flex items-center justify-between">
+            <div class="w-[90%]">
+              <app-input-subtask
+                [type]="'text'"
+                [placeholder]="'e.g. Make coffee'"
+              ></app-input-subtask>
+            </div>
+            <div class="w-[10%] flex items-center justify-center">
+              <img
+                src="assets/icon-cross.svg"
+                alt="icon-cross"
+                class="cursor-pointer"
+              />
+            </div>
+          </div>
+          <div>
+            <app-buttonse
+              [text]="'+ Add New Column'"
+              [additionalClasses]="''"
+            ></app-buttonse>
+          </div>
+        </div>
+      </div>
+      <div>
+        <app-buttonse
+          [text]="'Save Changes'"
+          [additionalClasses]="'!text-white !bg-main-purple'"
+        ></app-buttonse>
+      </div>
+    </div>
   </app-modal>
 
   <!-- Modal for delete-board -->
