@@ -7,7 +7,7 @@
     *ngIf="backDropFilterLarge"
   ></div>
 
-  <!-- Example modals -->
+  <!-- Modal for view-task -->
   <app-modal
     [isOpen]="(modalService.modalState$ | async) === 'view-task'"
     (close)="closeModal()"
@@ -67,6 +67,7 @@
     </div>
   </app-modal>
 
+  <!-- Modal for add task -->
   <app-modal
     [isOpen]="(modalService.modalState$ | async) === 'add-task'"
     (close)="modalService.closeModal()"
@@ -74,6 +75,8 @@
     <!-- You can add the form or content for adding a task here -->
     <!-- <app-add-task-form></app-add-task-form> -->
   </app-modal>
+
+  <!-- Modal for add-board -->
   <app-modal
     [isOpen]="(modalService.modalState$ | async) === 'add-board'"
     (close)="modalService.closeModal()"
@@ -82,6 +85,8 @@
     <!-- You can add the form or content for adding a task here -->
     <!-- <app-add-task-form></app-add-task-form> -->
   </app-modal>
+
+  <!-- Modal for edit-board -->
   <app-modal
     [isOpen]="(modalService.modalState$ | async) === 'edit-board'"
     (close)="modalService.closeModal()"
@@ -90,6 +95,8 @@
     <!-- You can add the form or content for adding a task here -->
     <!-- <app-add-task-form></app-add-task-form> -->
   </app-modal>
+
+  <!-- Modal for delete-board -->
   <app-modal
     [isOpen]="(modalService.modalState$ | async) === 'delete-board'"
     (close)="modalService.closeModal()"
@@ -98,6 +105,8 @@
     <!-- You can add the form or content for adding a task here -->
     <!-- <app-add-task-form></app-add-task-form> -->
   </app-modal>
+
+  <!-- Modal for edit task -->
   <app-modal
     [isOpen]="(modalService.modalState$ | async) === 'edit-task'"
     (close)="modalService.closeModal()"
@@ -106,6 +115,8 @@
     <!-- You can add the form or content for adding a task here -->
     <!-- <app-add-task-form></app-add-task-form> -->
   </app-modal>
+
+  <!-- Modal for delete-task -->
   <app-modal
     [isOpen]="(modalService.modalState$ | async) === 'delete-task'"
     (close)="modalService.closeModal()"
