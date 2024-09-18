@@ -1,5 +1,5 @@
 <div
-  class="p-3 w-[255px] bg-light-gray dark:bg-very-dark-grey rounded-[4px] flex items-center hover:bg-main-purple hover:bg-opacity-25 cursor-pointer {{
+  class="p-3 w-full bg-light-gray dark:bg-very-dark-grey rounded-[4px] flex items-center hover:bg-main-purple hover:bg-opacity-25 cursor-pointer {{
     additionCss
   }}"
   (click)="toggleCheck()"
@@ -20,7 +20,7 @@
         class="text-black dark:text-white text-[14px] font-medium"
         [ngClass]="{ 'line-through': isChecked }"
       >
-        Idle
+        {{title}}
       </p>
     </div>
   </div>

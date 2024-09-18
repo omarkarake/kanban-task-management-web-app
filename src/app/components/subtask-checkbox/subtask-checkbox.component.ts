@@ -6,6 +6,7 @@ import { Component, Input } from '@angular/core';
   styleUrl: './subtask-checkbox.component.css',
 })
 export class SubtaskCheckboxComponent {
+  @Input() title: string = '';
   @Input() additionCss: string = '';
   @Input() isChecked: boolean = false;
   constructor() {}

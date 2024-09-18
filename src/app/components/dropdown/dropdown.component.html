@@ -1,4 +1,4 @@
-<div class="flex w-[237px] flex-col gap-2 relative">
+<div class="flex w-full flex-col gap-2 relative">
   <div>
     <p class="text-body-m text-medium-gray dark:text-white">{{ label }}</p>
   </div>
@@ -11,7 +11,7 @@
     <img src="assets/icon-chevron-down.svg" alt="icon-chevron-down" />
   </div>
   <div
-    class="w-full dark:bg-very-dark-grey rounded-lg absolute bottom-[-125px]"
+    class="w-full bg-white dark:bg-very-dark-grey rounded-lg absolute shadow-xl bottom-[-125px]"
     *ngIf="dropDownActive"
   >
     <ul
