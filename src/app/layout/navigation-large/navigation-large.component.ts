@@ -1,3 +1,4 @@
+import { ModalService } from './../../services/modal/modal.service';
 import { Observable } from 'rxjs';
 import { ThemeService } from '../../services/theme/theme.service';
 import { LargenavService } from './../../services/navigation/largenav.service';
@@ -17,7 +18,8 @@ export class NavigationLargeComponent {
   @Output() toggleDropDownBackdropLarge = new EventEmitter<void>();
   constructor(
     private largenavService: LargenavService,
-    private themeService: ThemeService
+    private themeService: ThemeService,
+    private modalService: ModalService
   ) {}
   toggleDropDown(): void {
     this.dropDownActive = !this.dropDownActive;
@@ -36,7 +38,8 @@ export class NavigationLargeComponent {
     this.toggleDropDown();
   }
 
-  addNewTask(){
-    this.openModalForAddTask.emit();
+  addNewTask() {
+    // this.openModalForAddTask.emit();
+    this.modalService.openModal('add-task');
   }
 }

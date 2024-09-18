@@ -7,20 +7,21 @@
     *ngIf="backDropFilterLarge"
   ></div>
 
-   <!-- Example modals -->
-   <app-modal
-   [isOpen]="isViewTaskModalOpen"
-   [modalTitle]="'View Task'"
-   (close)="closeModal()"
- >
-   <p>Task details go here...</p>
- </app-modal>
-
- <app-modal
-    [isOpen]="isAddTaskModalOpen"
-    [modalTitle]="'Add New Task'"
+  <!-- Example modals -->
+  <app-modal
+    [isOpen]="isViewTaskModalOpen"
+    [modalTitle]="'View Task'"
     (close)="closeModal()"
   >
+    <p>Task details go here...</p>
+  </app-modal>
+
+  <app-modal
+    [isOpen]="(modalService.modalState$ | async) === 'add-task'"
+    [modalTitle]="'Add New Task'"
+    (close)="modalService.closeModal()"
+  >
+    <!-- You can add the form or content for adding a task here -->
     <!-- <app-add-task-form></app-add-task-form> -->
   </app-modal>
   <!-- navigation and sidebar for mobile phone -->
@@ -63,7 +64,6 @@
       >
         <app-navigation-large
           (toggleDropDownBackdropLarge)="toggleDropDownBackdropLarge()"
-          (openModalForAddTask)="openModalForAddTask()"
         ></app-navigation-large>
       </div>
 

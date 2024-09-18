@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ThemeService } from './services/theme/theme.service';
 import { LargenavService } from './services/navigation/largenav.service';
+import { ModalService } from './services/modal/modal.service';
 
 @Component({
   selector: 'app-root',
@@ -21,7 +22,8 @@ export class AppComponent {
 
   constructor(
     private themeService: ThemeService,
-    private largenavService: LargenavService
+    private largenavService: LargenavService,
+    public modalService: ModalService
   ) {}
 
   toggleTheme() {
@@ -41,43 +43,23 @@ export class AppComponent {
     // this.backDropFilterLarge = !this.backDropFilterLarge;
   }
 
-  openModal(modalType: string) {
-    this.backDropFilterLarge = true;
-    switch (modalType) {
-      case 'view-task':
-        this.isViewTaskModalOpen = true;
-        break;
-      case 'add-task':
-        this.isAddTaskModalOpen = true;
-        break;
-      case 'edit-task':
-        this.isEditTaskModalOpen = true;
-        break;
-      case 'add-board':
-        this.isAddBoardModalOpen = true;
-        break;
-      case 'edit-board':
-        this.isEditBoardModalOpen = true;
-        break;
-      case 'delete-board':
-        this.isDeleteBoardModalOpen = true;
-        break;
-      default:
-        break;
-    }
+  // closeModal() {
+  //   this.backDropFilterLarge = false;
+  //   this.isViewTaskModalOpen = false;
+  //   this.isAddTaskModalOpen = false;
+  //   this.isEditTaskModalOpen = false;
+  //   this.isAddBoardModalOpen = false;
+  //   this.isEditBoardModalOpen = false;
+  //   this.isDeleteBoardModalOpen = false;
+  // }
+
+  // Function to open the 'add-task' modal
+  openAddTaskModal() {
+    this.modalService.openModal('add-task');
   }
 
+  // Function to close the modal
   closeModal() {
-    this.backDropFilterLarge = false;
-    this.isViewTaskModalOpen = false;
-    this.isAddTaskModalOpen = false;
-    this.isEditTaskModalOpen = false;
-    this.isAddBoardModalOpen = false;
-    this.isEditBoardModalOpen = false;
-    this.isDeleteBoardModalOpen = false;
-  }
-
-  openModalForAddTask() {
-    this.openModal('add-task');
+    this.modalService.closeModal();
   }
 }
