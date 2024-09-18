@@ -17,7 +17,7 @@
     </div>
     <div
       *ngFor="let item of items; let i = index"
-      class="md:w-[240px] lg:w-[276px] px-8 py-[14px] rounded-r-[100px] flex items-center gap-4 cursor-pointer"
+      class="w-[90%] px-8 py-[14px] rounded-r-[100px] flex items-center gap-4 cursor-pointer"
       [ngClass]="{
         'bg-main-purple': selectedItemIndex === i,
         'bg-transparent': selectedItemIndex !== i

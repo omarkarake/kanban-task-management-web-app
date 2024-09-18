@@ -1,5 +1,5 @@
 <div
-  class="w-full bg-light-gray h-dvh dark:bg-very-dark-grey relative transition"
+  class="w-full bg-light-gray h-dvh dark:bg-very-dark-grey relative transition custom-scrollbar"
 >
   <!-- navigation and sidebar for mobile phone -->
   <div
@@ -15,8 +15,8 @@
     <div
       class="h-screen transition-all ease-in-out duration-300 border-r-[1px] border-lines-light dark:border-r-lines-dark border-opacity-10"
       [ngClass]="{
-        'md:w-[260px] lg:w-[300px]': !layoutSideBarOpen,
-        'w-0 overflow-hidden': layoutSideBarOpen
+        'md:w-[35%] lg:w-[20.83%]': !layoutSideBarOpen,
+        'w-0': layoutSideBarOpen
       }"
     >
       <div *ngIf="!layoutSideBarOpen" class="h-full">
@@ -25,9 +25,19 @@
         ></app-sidebar-large>
       </div>
     </div>
-    <div class="flex-1 h-screen relative">
+    <div
+      class="h-screen relative"
+      [ngClass]="{
+        'md:w-[65%] lg:w-[79.17%]': !layoutSideBarOpen,
+        'w-[100%]': layoutSideBarOpen
+      }"
+    >
       <div
-        class="absolute top-0 right-0 w-full border-b-[1px] border-light-gray border-opacity-10 z-30"
+        class="top-0 right-0 w-full border-b-[1px] border-light-gray border-opacity-10 z-30"
+        [ngClass]="{
+          'absolute': !layoutSideBarOpen,
+          'fixed': layoutSideBarOpen
+        }"
       >
         <app-navigation-large
           (toggleDropDownBackdropLarge)="toggleDropDownBackdropLarge()"
@@ -35,16 +45,16 @@
       </div>
 
       <!-- Main content for both large and mobile devices -->
-      <div
-        class="w-full h-full pt-[65px] overflow-y-scroll overflow-x-scroll relative custom-scrollbar"
-      >
+      <div class="w-full h-full pt-[65px] overflow-x-scroll overflow-y-scroll relative">
         <!-- drop filter dark background for models -->
         <div
-          class="w-full h-full bg-black opacity-50 absolute z-0"
+          class="min-w-full w-auto h-full bg-black opacity-50 absolute z-0"
           *ngIf="backDropFilterLarge"
         ></div>
-        <div class="p-6 flex gap-6">
-          <app-column></app-column>
+        <div class="p-6 pr-6 flex gap-6">
+          <app-column [title]="'todo'"></app-column>
+          <app-column [title]="'doing'"></app-column>
+          <app-column [title]="'done'"></app-column>
           <app-addcolumn></app-addcolumn>
         </div>
         <!-- <div class="flex flex-col items-center justify-center h-full gap-6">
@@ -58,7 +68,7 @@
         </div> -->
         <!-- hidden button to toggle sidebar -->
         <div
-          class="w-14 h-12 bg-main-purple flex items-center justify-center rounded-r-[100px] absolute bottom-[32px] left-0 cursor-pointer z-10"
+          class="w-14 h-12 bg-main-purple flex items-center justify-center rounded-r-[100px] sticky bottom-[32px] left-0 cursor-pointer z-10"
           (click)="triggerSideBar()"
           *ngIf="layoutSideBarOpen"
         >
@@ -70,7 +80,7 @@
 
   <!-- this div should be main for the mobile device -->
   <div
-    class="w-full h-full md:hidden overflow-y-scroll overflow-x-scroll custom-scrollbar relative"
+    class="w-full h-full md:hidden overflow-y-scroll overflow-x-scroll relative"
   >
     <div
       class="w-full h-full bg-black opacity-50 absolute z-0"
