@@ -9,6 +9,7 @@ import { Component, EventEmitter, Output } from '@angular/core';
   styleUrl: './navigation-large.component.css',
 })
 export class NavigationLargeComponent {
+  @Output() openModalForAddTask = new EventEmitter<void>();
   header$ = this.largenavService.header$;
   toggleLogo$ = this.largenavService.togoLogo$;
   dropDownActive: boolean = false;
@@ -33,5 +34,9 @@ export class NavigationLargeComponent {
 
     // Close the dropdown after selection
     this.toggleDropDown();
+  }
+
+  addNewTask(){
+    this.openModalForAddTask.emit();
   }
 }

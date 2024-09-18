@@ -22,10 +22,12 @@
     </div>
   </div>
   <div class="flex items-center gap-4">
-    <app-buttonadd
-      [text]="'Add New Task'"
-      [additionalClasses]="'!text-white'"
-    ></app-buttonadd>
+    <div (click)="addNewTask()">
+      <app-buttonadd
+        [text]="'Add New Task'"
+        [additionalClasses]="'!text-white'"
+      ></app-buttonadd>
+    </div>
     <div class="relative cursor-pointer">
       <img
         src="assets/icon-vertical-ellipsis.svg"

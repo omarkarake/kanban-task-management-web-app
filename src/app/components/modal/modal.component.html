@@ -1,0 +1,25 @@
+<div
+  class="fixed inset-0 flex items-center justify-center z-50"
+  *ngIf="isOpen"
+  (click)="closeModal()"
+>
+  <!-- Dark filter background -->
+  <div
+    class="absolute inset-0 bg-black opacity-50"
+    (click)="closeModal()"
+  ></div>
+
+  <!-- Modal content -->
+  <div
+    class="relative bg-white dark:bg-dark-gray p-6 rounded-lg shadow-lg z-10"
+    (click)="$event.stopPropagation()"
+  >
+    <h2 class="text-lg font-semibold mb-4">{{ modalTitle }}</h2>
+    <ng-content></ng-content> <!-- Content will be inserted here -->
+    <div class="mt-4 flex justify-end">
+      <button (click)="closeModal()" class="px-4 py-2 bg-red text-white rounded">
+        Close
+      </button>
+    </div>
+  </div>
+</div>

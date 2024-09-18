@@ -6,6 +6,23 @@
     class="min-w-full w-auto h-full bg-black opacity-50 absolute z-50"
     *ngIf="backDropFilterLarge"
   ></div>
+
+   <!-- Example modals -->
+   <app-modal
+   [isOpen]="isViewTaskModalOpen"
+   [modalTitle]="'View Task'"
+   (close)="closeModal()"
+ >
+   <p>Task details go here...</p>
+ </app-modal>
+
+ <app-modal
+    [isOpen]="isAddTaskModalOpen"
+    [modalTitle]="'Add New Task'"
+    (close)="closeModal()"
+  >
+    <!-- <app-add-task-form></app-add-task-form> -->
+  </app-modal>
   <!-- navigation and sidebar for mobile phone -->
   <div
     class="top-0 absolute w-full bg-white dark:bg-dark-gray md:hidden border-b-[1px] border-light-gray border-opacity-10 z-10"
@@ -46,6 +63,7 @@
       >
         <app-navigation-large
           (toggleDropDownBackdropLarge)="toggleDropDownBackdropLarge()"
+          (openModalForAddTask)="openModalForAddTask()"
         ></app-navigation-large>
       </div>
 
