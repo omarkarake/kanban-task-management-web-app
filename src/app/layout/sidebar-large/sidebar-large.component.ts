@@ -10,7 +10,12 @@ import { LargenavService } from '../../services/navigation/largenav.service';
 })
 export class SidebarLargeComponent {
   @Output() toggleSideBar = new EventEmitter<void>();
-  items = ['Platform Launch', 'Other Item', 'Roadmap', '+ Create New Board'];
+  items = [
+    'Platform Launch',
+    'Marketing Plan',
+    'Roadmap',
+    '+ Create New Board',
+  ];
   selectedItemIndex: number = 0;
   isDarkMode: Observable<boolean> = this.themeService.isDarkMode$;
   constructor(
