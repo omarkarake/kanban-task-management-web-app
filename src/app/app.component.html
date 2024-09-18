@@ -72,7 +72,7 @@
     [isOpen]="(modalService.modalState$ | async) === 'add-task'"
     (close)="modalService.closeModal()"
   >
-    <div class="flex flex-col gap-6 max-h-[600px] md:max-h-[650px] lg:max-h-[450px] overflow-y-scroll">
+    <div class="flex flex-col gap-6">
       <div>
         <p class="text-heading-l text-black dark:text-white">Add New Task</p>
       </div>
