@@ -8,7 +8,7 @@ import { Component, Input } from '@angular/core';
 export class InputComponent {
   @Input() label: string = 'Text Field (Idle)';
   @Input() placeholder: string = 'Placeholder';
-  @Input() type: string = 'text';
+  @Input() type: string = '';
   @Input() value: string = '';
   @Input() error: boolean = false;
 }

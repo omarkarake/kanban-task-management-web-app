@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { ThemeService } from './services/theme/theme.service';
 import { LargenavService } from './services/navigation/largenav.service';
-import { ModalService } from './services/modal/modal.service';
+import { ModalService } from './services/theme/modal/modal.service';
 
 @Component({
   selector: 'app-root',
@@ -21,7 +21,6 @@ export class AppComponent {
   isDeleteBoardModalOpen: boolean = false;
 
   dropDownActive: boolean = false;
-
 
   constructor(
     private themeService: ThemeService,

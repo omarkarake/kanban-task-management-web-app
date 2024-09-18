@@ -1,4 +1,4 @@
-import { ModalService } from './../../services/modal/modal.service';
+import { ModalService } from '../../services/theme/modal/modal.service';
 import { Observable } from 'rxjs';
 import { ThemeService } from '../../services/theme/theme.service';
 import { LargenavService } from './../../services/navigation/largenav.service';

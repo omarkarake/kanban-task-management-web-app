@@ -72,8 +72,27 @@
     [isOpen]="(modalService.modalState$ | async) === 'add-task'"
     (close)="modalService.closeModal()"
   >
-    <!-- You can add the form or content for adding a task here -->
-    <!-- <app-add-task-form></app-add-task-form> -->
+    <div class="flex flex-col gap-6">
+      <div>
+        <p class="text-heading-l text-black dark:text-white">Add New Task</p>
+      </div>
+      <div>
+        <app-input
+          [label]="'Title'"
+          [type]="'text'"
+          [placeholder]="'e.g. Take coffee break'"
+        ></app-input>
+      </div>
+      <div>
+        <app-input
+          [label]="'Description'"
+          [type]="'textarea'"
+          [placeholder]="
+            'e.g. It’s always good to take a break. This 15 minute break will recharge the batteries a little.'
+          "
+        ></app-input>
+      </div>
+    </div>
   </app-modal>
 
   <!-- Modal for add-board -->

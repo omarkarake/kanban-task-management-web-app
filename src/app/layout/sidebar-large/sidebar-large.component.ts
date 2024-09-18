@@ -2,7 +2,7 @@ import { Component, EventEmitter, Output } from '@angular/core';
 import { ThemeService } from '../../services/theme/theme.service';
 import { Observable } from 'rxjs';
 import { LargenavService } from '../../services/navigation/largenav.service';
-import { ModalService } from '../../services/modal/modal.service';
+import { ModalService } from '../../services/theme/modal/modal.service';
 
 @Component({
   selector: 'app-sidebar-large',

@@ -1,17 +1,26 @@
-<div class="flex w-[237px] flex-col gap-2">
+<div class="flex w-full flex-col gap-2">
   <div>
     <p class="text-body-m text-medium-gray dark:text-white">{{ label }}</p>
   </div>
   <div
-    class="py-2 px-4 rounded-[4px] border-medium-gray border-[1px] flex items-center justify-between"
+    class="py-2 px-4 rounded-[4px] border-medium-gray border-opacity-25 border-[1px] flex items-center justify-between"
     [ngClass]="{ 'border-red': error }"
   >
     <input
       class="outline-none w-[99px] dark:bg-transparent dark:text-white"
-      type="{{ type }}"
+      [type]="type"
       placeholder="{{ placeholder }}"
       [ngClass]="{ '!w-full': !error }"
+      *ngIf="type !== 'textarea'"
     />
+    <textarea
+      *ngIf="type === 'textarea'"
+      class="outline-none w-[99px] dark:bg-transparent dark:text-white"
+      name=""
+      id=""
+      placeholder="{{ placeholder }}"
+      [ngClass]="{ '!w-full': !error }"
+    ></textarea>
     <p class="text-body-l" *ngIf="error" [ngClass]="{ 'text-red': error }">
       Can’t be empty
     </p>
