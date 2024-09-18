@@ -9,14 +9,16 @@ import { ModalService } from '../../services/modal/modal.service';
   styleUrl: './navigation-phone.component.css',
 })
 export class NavigationPhoneComponent {
-  @Output() toggleDropDownBackdrop = new EventEmitter<void>();
   items = ['Platform Launch', 'Other Item', 'Roadmap', '+ Create New Board'];
   selectedItemIndex: number = 0;
   isDarkMode: Observable<boolean> = this.themeService.isDarkMode$;
   dropDownOpen: boolean = false;
   dropDownActiveEllipsis: boolean = false;
 
-  constructor(private themeService: ThemeService, private modalService: ModalService) {}
+  constructor(
+    private themeService: ThemeService,
+    private modalService: ModalService
+  ) {}
 
   selectItem(index: number): void {
     this.selectedItemIndex = index;
@@ -27,11 +29,9 @@ export class NavigationPhoneComponent {
   }
   toggleDropDown(): void {
     this.dropDownOpen = !this.dropDownOpen;
-    this.toggleDropDownBackdrop.emit();
   }
   toggleDropDownEllipsis(): void {
     this.dropDownActiveEllipsis = !this.dropDownActiveEllipsis;
-    this.toggleDropDownBackdrop.emit();
   }
 
   openModal(modalType: string) {
@@ -39,18 +39,12 @@ export class NavigationPhoneComponent {
     this.modalService.openModal(modalType);
   }
 
-
-
   selectOption(option: string): void {
     if (option === 'edit') {
-      // Handle edit board logic here
-      console.log('Edit Board selected');
+      this.modalService.openModal('edit-board');
     } else if (option === 'delete') {
-      // Handle delete board logic here
-      console.log('Delete Board selected');
+      this.modalService.openModal('delete-board');
     }
-
-    // Close the dropdown after selection
     this.toggleDropDownEllipsis();
   }
 }
