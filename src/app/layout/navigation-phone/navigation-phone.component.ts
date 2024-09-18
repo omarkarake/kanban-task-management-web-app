@@ -21,8 +21,13 @@ export class NavigationPhoneComponent {
   ) {}
 
   selectItem(index: number): void {
-    this.selectedItemIndex = index;
-    this.dropDownOpen = false;
+    if (index === this.items.length - 1) {
+      this.modalService.openModal('add-board');
+      this.dropDownOpen = false;
+    } else {
+      this.selectedItemIndex = index;
+      this.dropDownOpen = false;
+    }
   }
   toggleDarkMode(): void {
     this.themeService.toggleTheme();
