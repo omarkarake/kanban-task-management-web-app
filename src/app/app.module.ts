@@ -15,6 +15,7 @@ import { ButtonaddComponent } from './components/buttons/buttonadd/buttonadd.com
 import { SidebarLargeComponent } from './layout/sidebar-large/sidebar-large.component';
 import { HomeComponent } from './pages/home/home.component';
 import { ColumnComponent } from './components/column/column.component';
+import { AddcolumnComponent } from './components/addcolumn/addcolumn.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { ColumnComponent } from './components/column/column.component';
     ButtonaddComponent,
     SidebarLargeComponent,
     HomeComponent,
-    ColumnComponent
+    ColumnComponent,
+    AddcolumnComponent
   ],
   imports: [
     BrowserModule,

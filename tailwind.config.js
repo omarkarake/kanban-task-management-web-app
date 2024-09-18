@@ -19,7 +19,8 @@ module.exports = {
         red: "#EA5555",
         "red-hover": "#FF9898",
         todo: "#49C4E5",
-        done: "#67E2AE"
+        done: "#67E2AE",
+        linear: "#E9EFFA"
       },
       fontFamily: {
         "plus-jakarta": ["Plus Jakarta Sans", "sans-serif"],
@@ -34,6 +35,11 @@ module.exports = {
       },
       letterSpacing: {
         "heading-s": "2.4px", // Custom kerning for Heading (S)
+      },
+      backgroundImage: {
+        'custom-linear': 'linear-gradient(to bottom left, #E9EFFA 0%, #E9EFFA 50%)',
+        'custom-linear-dark': 'linear-gradient(to bottom left, #2B2C37 0%, #2B2C37 50%)',
+
       },
     },
   },
