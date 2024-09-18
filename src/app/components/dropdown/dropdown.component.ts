@@ -7,7 +7,7 @@ import { Component, Input } from '@angular/core';
 })
 export class DropdownComponent {
   @Input() label: string = 'Dropdown';
-  @Input() options: string[] = ['Option 1', 'Option 2', 'Option 3'];
+  @Input() options: string[] = ['Todo', 'Doing', 'Done'];
   @Input() value: string = this.options[0];
   dropDownActive: boolean = false;
   constructor() {}

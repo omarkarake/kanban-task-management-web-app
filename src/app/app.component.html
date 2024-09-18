@@ -72,7 +72,7 @@
     [isOpen]="(modalService.modalState$ | async) === 'add-task'"
     (close)="modalService.closeModal()"
   >
-    <div class="flex flex-col gap-6">
+    <div class="flex flex-col gap-6 max-h-[600px] md:max-h-[650px] lg:max-h-[450px] overflow-y-scroll">
       <div>
         <p class="text-heading-l text-black dark:text-white">Add New Task</p>
       </div>
@@ -91,6 +91,41 @@
             'e.g. It’s always good to take a break. This 15 minute break will recharge the batteries a little.'
           "
         ></app-input>
+      </div>
+      <div>
+        <p class="text-body-m text-medium-gray">Subtasks</p>
+        <div class="mt-2 flex flex-col gap-3">
+          <div class="w-full flex items-center justify-between">
+            <div class="w-[90%]">
+              <app-input-subtask
+                [type]="'text'"
+                [placeholder]="'e.g. Make coffee'"
+              ></app-input-subtask>
+            </div>
+            <div class="w-[10%] flex items-center justify-center">
+              <img
+                src="assets/icon-cross.svg"
+                alt="icon-cross"
+                class="cursor-pointer"
+              />
+            </div>
+          </div>
+          <div>
+            <app-buttonse
+              [text]="'+ Add New Subtask'"
+              [additionalClasses]="'!text-white !bg-main-purple'"
+            ></app-buttonse>
+          </div>
+        </div>
+      </div>
+      <div>
+        <app-dropdown [label]="'Status'"></app-dropdown>
+      </div>
+      <div>
+        <app-buttonse
+          [text]="'Create Task'"
+          [additionalClasses]="'!text-white !bg-main-purple'"
+        ></app-buttonse>
       </div>
     </div>
   </app-modal>

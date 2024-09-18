@@ -17,6 +17,7 @@ import { HomeComponent } from './pages/home/home.component';
 import { ColumnComponent } from './components/column/column.component';
 import { AddcolumnComponent } from './components/addcolumn/addcolumn.component';
 import { ModalComponent } from './components/modal/modal.component';
+import { InputSubtaskComponent } from './components/input-subtask/input-subtask.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { ModalComponent } from './components/modal/modal.component';
     HomeComponent,
     ColumnComponent,
     AddcolumnComponent,
-    ModalComponent
+    ModalComponent,
+    InputSubtaskComponent
   ],
   imports: [
     BrowserModule,
