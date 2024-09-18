@@ -15,7 +15,6 @@ export class NavigationLargeComponent {
   toggleLogo$ = this.largenavService.togoLogo$;
   dropDownActive: boolean = false;
   isDarkMode: Observable<boolean> = this.themeService.isDarkMode$;
-  @Output() toggleDropDownBackdropLarge = new EventEmitter<void>();
   constructor(
     private largenavService: LargenavService,
     private themeService: ThemeService,
@@ -23,7 +22,6 @@ export class NavigationLargeComponent {
   ) {}
   toggleDropDown(): void {
     this.dropDownActive = !this.dropDownActive;
-    this.toggleDropDownBackdropLarge.emit();
   }
   selectOption(option: string): void {
     if (option === 'edit') {

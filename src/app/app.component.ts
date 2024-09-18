@@ -20,6 +20,9 @@ export class AppComponent {
   isEditBoardModalOpen: boolean = false;
   isDeleteBoardModalOpen: boolean = false;
 
+  dropDownActive: boolean = false;
+
+
   constructor(
     private themeService: ThemeService,
     private largenavService: LargenavService,
@@ -61,5 +64,20 @@ export class AppComponent {
   // Function to close the modal
   closeModal() {
     this.modalService.closeModal();
+  }
+
+  toggleDropDown(): void {
+    this.dropDownActive = !this.dropDownActive;
+  }
+
+  selectOption(option: string): void {
+    if (option === 'edit') {
+      this.modalService.openModal('edit-task');
+    } else if (option === 'delete') {
+      this.modalService.openModal('delete-task');
+    }
+
+    // Close the dropdown after selection
+    this.toggleDropDown();
   }
 }
