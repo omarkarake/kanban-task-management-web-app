@@ -7,6 +7,7 @@ import { Board } from '../../models/boards.modal';
 export interface BoardsState extends EntityState<Board> {
   loaded: boolean;
   error: string | null;
+  selectedBoardIndex: number | null;
 }
 
 // Create an adapter for Board entities using 'id' as the unique identifier
@@ -18,6 +19,7 @@ export const adapter: EntityAdapter<Board> = createEntityAdapter<Board>({
 export const initialState: BoardsState = adapter.getInitialState({
   loaded: false,
   error: null,
+  selectedBoardIndex: null,
 });
 
 // Reducer function to handle actions
@@ -30,7 +32,13 @@ export const boardsReducer = createReducer(
       ...state,
       loaded: true,
     });
-  })
+  }),
+
+  // Handle selecting a board
+  on(BoardsActions.selectBoard, (state, { index }) => ({
+    ...state,
+    selectedBoardIndex: index,
+  }))
 );
 
 // Export selectors for getting entities and the state

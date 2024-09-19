@@ -27,3 +27,20 @@ export const selectBoardNames = createSelector(
   selectAllBoards,
   (boards) => boards.map(board => board.name)
 );
+
+// Select columns of the selected board by index
+export const selectColumnsByBoardIndex = (index: number) =>
+  createSelector(selectAllBoards, (boards) => boards[index]?.columns ?? []);
+
+// Select the selected board index
+export const selectSelectedBoardIndex = createSelector(
+  selectBoardsState,
+  (state) => state.selectedBoardIndex
+);
+
+// Select columns of the selected board
+export const selectColumnsOfSelectedBoard = createSelector(
+  selectAllBoards,
+  selectSelectedBoardIndex,
+  (boards, selectedIndex) => selectedIndex !== null ? boards[selectedIndex]?.columns ?? [] : []
+);

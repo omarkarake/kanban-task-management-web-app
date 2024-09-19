@@ -5,7 +5,9 @@ import { map } from 'rxjs/operators';
 import { LargenavService } from '../../services/navigation/largenav.service';
 import { ModalService } from '../../services/theme/modal/modal.service';
 import { Store } from '@ngrx/store';
-import { selectBoardNames } from '../../store/selectors/boards.selectors';
+import { selectBoardNames, selectColumnsOfSelectedBoard } from '../../store/selectors/boards.selectors';
+import { selectBoard } from '../../store/actions/boards.actions';
+import { Column } from '../../models/boards.modal';
 
 @Component({
   selector: 'app-sidebar-large',
@@ -15,6 +17,7 @@ import { selectBoardNames } from '../../store/selectors/boards.selectors';
 export class SidebarLargeComponent implements OnInit {
   @Output() toggleSideBar = new EventEmitter<void>();
   items$: Observable<string[]>;
+  columns$: Observable<Column[]>;
   selectedItemIndex: number = 0;
   isDarkMode: Observable<boolean> = this.themeService.isDarkMode$;
 
@@ -27,6 +30,8 @@ export class SidebarLargeComponent implements OnInit {
     this.items$ = this.store.select(selectBoardNames).pipe(
       map(items => [...items, '+ Create New Board'])
     );
+
+    this.columns$ = this.store.select(selectColumnsOfSelectedBoard);
   }
 
   ngOnInit(): void {}
@@ -38,6 +43,7 @@ export class SidebarLargeComponent implements OnInit {
       } else {
         this.selectedItemIndex = index;
         this.largeNavService.header.next(items[index]);
+        this.store.dispatch(selectBoard({ index }));
       }
     }).unsubscribe();
   }

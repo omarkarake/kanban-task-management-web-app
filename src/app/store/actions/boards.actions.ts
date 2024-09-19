@@ -6,3 +6,9 @@ export const loadBoardsData = createAction(
   '[Boards API] Load Boards Data',
   props<{ boards: Board[] }>()
 );
+
+// Action to select a board
+export const selectBoard = createAction(
+  '[Boards] Select Board',
+  props<{ index: number }>()
+);
