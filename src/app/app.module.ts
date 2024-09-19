@@ -21,6 +21,7 @@ import { InputSubtaskComponent } from './components/input-subtask/input-subtask.
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { HttpClientModule } from '@angular/common/http';
+import { boardsReducer } from './store/reducers/boards.reducer';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,7 @@ import { HttpClientModule } from '@angular/common/http';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    StoreModule.forRoot({}, {}),
+    StoreModule.forRoot({ boards: boardsReducer }),
     StoreDevtoolsModule.instrument({
       maxAge: 25,
       logOnly: !isDevMode(),

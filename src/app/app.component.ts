@@ -3,7 +3,11 @@ import { ThemeService } from './services/theme/theme.service';
 import { LargenavService } from './services/navigation/largenav.service';
 import { ModalService } from './services/theme/modal/modal.service';
 import { BoardsService } from './services/boardsFetchData/boards.service';
-import { BoardsData } from './models/boards.modal';
+import { Board, BoardsData } from './models/boards.modal';
+import { Store } from '@ngrx/store';
+import { loadBoardsData } from './store/actions/boards.actions';
+import { Observable } from 'rxjs';
+import { selectAllBoards } from './store/selectors/boards.selectors';
 
 @Component({
   selector: 'app-root',
@@ -23,21 +27,26 @@ export class AppComponent implements OnInit {
   isDeleteBoardModalOpen: boolean = false;
 
   dropDownActive: boolean = false;
-
+  boards$!: Observable<Board[]>;
   boardsData!: BoardsData;
 
   constructor(
     private themeService: ThemeService,
     private largenavService: LargenavService,
     public modalService: ModalService,
-    private boardsService: BoardsService
+    private boardsService: BoardsService,
+    private store: Store
   ) {}
 
   ngOnInit(): void {
     this.boardsService.getBoardsData().subscribe((data: BoardsData) => {
       // this.boardsData = data;
       console.log('fetched datas: ', data);
+      this.store.dispatch(loadBoardsData({ boards: data.boards }));
     });
+
+    // Select the data from the store
+    this.boards$ = this.store.select(selectAllBoards);
   }
 
   toggleTheme() {
