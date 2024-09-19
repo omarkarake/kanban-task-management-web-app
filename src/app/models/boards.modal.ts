@@ -20,6 +20,7 @@ export interface Column {
 
 // board.model.ts
 export interface Board {
+  id: string;
   name: string;
   columns: Column[];
 }

@@ -9,9 +9,9 @@ export interface BoardsState extends EntityState<Board> {
   error: string | null;
 }
 
-// Create an adapter for Board entities with a custom selectId function
+// Create an adapter for Board entities using 'id' as the unique identifier
 export const adapter: EntityAdapter<Board> = createEntityAdapter<Board>({
-  selectId: (board: Board) => board.name  // Assuming 'name' is unique for each board
+  selectId: (board: Board) => board.id,  // Use the generated 'id' field
 });
 
 // Define the initial state with entities and other properties
