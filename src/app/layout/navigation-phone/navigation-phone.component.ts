@@ -1,7 +1,9 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { ThemeService } from '../../services/theme/theme.service';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { ModalService } from '../../services/theme/modal/modal.service';
+import { Store } from '@ngrx/store';
+import { selectBoardNames } from '../../store/selectors/boards.selectors';
 
 @Component({
   selector: 'app-navigation-phone',
@@ -9,7 +11,7 @@ import { ModalService } from '../../services/theme/modal/modal.service';
   styleUrl: './navigation-phone.component.css',
 })
 export class NavigationPhoneComponent {
-  items = ['Platform Launch', 'Other Item', 'Roadmap', '+ Create New Board'];
+  items$: Observable<string[]>;
   selectedItemIndex: number = 0;
   isDarkMode: Observable<boolean> = this.themeService.isDarkMode$;
   dropDownOpen: boolean = false;
@@ -17,18 +19,28 @@ export class NavigationPhoneComponent {
 
   constructor(
     private themeService: ThemeService,
-    private modalService: ModalService
-  ) {}
+    private modalService: ModalService,
+    private store: Store
+  ) {
+    this.items$ = this.store
+      .select(selectBoardNames)
+      .pipe(map((items) => [...items, '+ Create New Board']));
+  }
 
   selectItem(index: number): void {
-    if (index === this.items.length - 1) {
-      this.modalService.openModal('add-board');
-      this.dropDownOpen = false;
-    } else {
-      this.selectedItemIndex = index;
-      this.dropDownOpen = false;
-    }
+    this.items$
+      .subscribe((items) => {
+        if (index === items.length - 1) {
+          this.modalService.openModal('add-board');
+          this.dropDownOpen = false;
+        } else {
+          this.selectedItemIndex = index;
+          this.dropDownOpen = false;
+        }
+      })
+      .unsubscribe();
   }
+
   toggleDarkMode(): void {
     this.themeService.toggleTheme();
   }
