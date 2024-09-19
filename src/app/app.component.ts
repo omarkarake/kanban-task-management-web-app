@@ -1,14 +1,16 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ThemeService } from './services/theme/theme.service';
 import { LargenavService } from './services/navigation/largenav.service';
 import { ModalService } from './services/theme/modal/modal.service';
+import { BoardsService } from './services/boardsFetchData/boards.service';
+import { BoardsData } from './models/boards.modal';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   layoutSideBarOpen: boolean = false;
   backDropFilter: boolean = false;
   backDropFilterLarge: boolean = false;
@@ -22,11 +24,21 @@ export class AppComponent {
 
   dropDownActive: boolean = false;
 
+  boardsData!: BoardsData;
+
   constructor(
     private themeService: ThemeService,
     private largenavService: LargenavService,
-    public modalService: ModalService
+    public modalService: ModalService,
+    private boardsService: BoardsService
   ) {}
+
+  ngOnInit(): void {
+    this.boardsService.getBoardsData().subscribe((data: BoardsData) => {
+      // this.boardsData = data;
+      console.log('fetched datas: ', data);
+    });
+  }
 
   toggleTheme() {
     this.themeService.toggleTheme();
