@@ -382,9 +382,14 @@
       <!-- Main content for both large and mobile devices -->
       <div class="w-full h-full pt-[65px] overflow-x-scroll overflow-y-scroll">
         <div class="p-6 pr-6 flex gap-6">
-          <app-column [title]="'todo'"></app-column>
-          <app-column [title]="'doing'"></app-column>
-          <app-column [title]="'done'"></app-column>
+          <!-- Loop through columns$ and pass data to app-column -->
+          <ng-container *ngIf="columns$ | async as columns">
+            <app-column
+              *ngFor="let column of columns"
+              [title]="column.name"
+              [tasks]="column.tasks"
+            ></app-column>
+          </ng-container>
           <app-addcolumn></app-addcolumn>
         </div>
         <!-- <div class="flex flex-col items-center justify-center h-full gap-6">
@@ -426,9 +431,13 @@
       ></app-buttonadd>
     </div> -->
     <div class="px-6 py-24 flex gap-6">
-      <app-column [title]="'todo'"></app-column>
-      <app-column [title]="'doing'"></app-column>
-      <app-column [title]="'done'"></app-column>
+      <ng-container *ngIf="columns$ | async as columns">
+        <app-column
+          *ngFor="let column of columns"
+          [title]="column.name"
+          [tasks]="column.tasks"
+        ></app-column>
+      </ng-container>
       <app-addcolumn></app-addcolumn>
     </div>
   </div>
