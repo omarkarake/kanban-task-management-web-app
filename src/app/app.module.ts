@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, isDevMode } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -18,6 +18,8 @@ import { ColumnComponent } from './components/column/column.component';
 import { AddcolumnComponent } from './components/addcolumn/addcolumn.component';
 import { ModalComponent } from './components/modal/modal.component';
 import { InputSubtaskComponent } from './components/input-subtask/input-subtask.component';
+import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 @NgModule({
   declarations: [
@@ -36,13 +38,22 @@ import { InputSubtaskComponent } from './components/input-subtask/input-subtask.
     ColumnComponent,
     AddcolumnComponent,
     ModalComponent,
-    InputSubtaskComponent
+    InputSubtaskComponent,
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    StoreModule.forRoot({}, {}),
+    StoreDevtoolsModule.instrument({
+      maxAge: 25,
+      logOnly: !isDevMode(),
+      autoPause: true,
+      trace: false,
+      traceLimit: 75,
+      connectInZone: true,
+    }),
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
