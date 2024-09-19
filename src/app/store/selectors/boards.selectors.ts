@@ -1,3 +1,5 @@
+// src/app/store/selectors/boards.selectors.ts
+
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { BoardsState, adapter } from '../reducers/boards.reducer';
 
@@ -18,4 +20,10 @@ export const selectBoardById = (id: string) =>
 export const selectBoardsLoaded = createSelector(
   selectBoardsState,
   (state) => state.loaded
+);
+
+// Select only the names of the boards
+export const selectBoardNames = createSelector(
+  selectAllBoards,
+  (boards) => boards.map(board => board.name)
 );

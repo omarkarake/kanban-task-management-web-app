@@ -13,10 +13,10 @@
       />
     </div>
     <div class="ml-[34px] mt-[54px] mb-[5px]">
-      <p class="text-body-m text-medium-gray">ALL BOARDS (3)</p>
+      <p class="text-body-m text-medium-gray">ALL BOARDS ({{ (items$ | async)?.length }})</p>
     </div>
     <div
-      *ngFor="let item of items; let i = index"
+      *ngFor="let item of items$ | async; let i = index"
       class="w-[90%] px-8 py-[14px] rounded-r-[100px] flex items-center gap-4 cursor-pointer"
       [ngClass]="{
         'bg-main-purple': selectedItemIndex === i,
@@ -28,7 +28,7 @@
         [src]="
           selectedItemIndex === i
             ? 'assets/icon-board-white.svg'
-            : i === items.length - 1
+            : i === ((items$ | async)?.length ?? 0) - 1
             ? 'assets/icon-board-blue.svg'
             : 'assets/icon-board.svg'
         "
@@ -37,7 +37,7 @@
       <p
         class="text-heading-m"
         [ngClass]="{
-            'text-body-m !text-main-purple': i === items.length - 1 && selectedItemIndex !== i,
+            'text-body-m !text-main-purple': i === ((items$ | async)?.length ?? 0) - 1 && selectedItemIndex !== i,
             'text-body-m text-medium-gray': selectedItemIndex !== i,
             'text-body-m !text-white': selectedItemIndex === i,
         }"
