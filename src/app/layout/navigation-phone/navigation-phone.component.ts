@@ -3,7 +3,9 @@ import { ThemeService } from '../../services/theme/theme.service';
 import { map, Observable } from 'rxjs';
 import { ModalService } from '../../services/theme/modal/modal.service';
 import { Store } from '@ngrx/store';
-import { selectBoardNames } from '../../store/selectors/boards.selectors';
+import { selectBoardNames, selectColumnsOfSelectedBoard } from '../../store/selectors/boards.selectors';
+import { selectBoard } from '../../store/actions/boards.actions';
+import { Column } from '../../models/boards.modal';
 
 @Component({
   selector: 'app-navigation-phone',
@@ -12,6 +14,7 @@ import { selectBoardNames } from '../../store/selectors/boards.selectors';
 })
 export class NavigationPhoneComponent {
   items$: Observable<string[]>;
+  columns$: Observable<Column[]>;
   selectedItemIndex: number = 0;
   isDarkMode: Observable<boolean> = this.themeService.isDarkMode$;
   dropDownOpen: boolean = false;
@@ -25,6 +28,8 @@ export class NavigationPhoneComponent {
     this.items$ = this.store
       .select(selectBoardNames)
       .pipe(map((items) => [...items, '+ Create New Board']));
+
+    this.columns$ = this.store.select(selectColumnsOfSelectedBoard);
   }
 
   selectItem(index: number): void {
@@ -36,6 +41,7 @@ export class NavigationPhoneComponent {
         } else {
           this.selectedItemIndex = index;
           this.dropDownOpen = false;
+          this.store.dispatch(selectBoard({ index }));
         }
       })
       .unsubscribe();
@@ -44,15 +50,16 @@ export class NavigationPhoneComponent {
   toggleDarkMode(): void {
     this.themeService.toggleTheme();
   }
+
   toggleDropDown(): void {
     this.dropDownOpen = !this.dropDownOpen;
   }
+
   toggleDropDownEllipsis(): void {
     this.dropDownActiveEllipsis = !this.dropDownActiveEllipsis;
   }
 
   openModal(modalType: string) {
-    // this.openModalForAddTask.emit();
     this.modalService.openModal(modalType);
   }
 
