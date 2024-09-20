@@ -3,9 +3,9 @@
     <div
       class="w-[15px] h-[15px] bg-todo rounded-full"
       [ngClass]="{
-        'bg-todo': title === 'Todo',
-        'bg-main-purple': title === 'Doing',
-        'bg-done': title === 'Done'
+        'bg-todo': title.toLocaleLowerCase() === 'Todo'.toLocaleLowerCase(),
+        'bg-main-purple': title.toLocaleLowerCase() === 'Doing'.toLocaleLowerCase(),
+        'bg-done': title.toLocaleLowerCase() === 'Done'.toLocaleLowerCase()
       }"
     ></div>
     <div class="text-heading-s text-medium-gray">

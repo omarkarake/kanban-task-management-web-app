@@ -135,25 +135,29 @@
     [isOpen]="(modalService.modalState$ | async) === 'add-board'"
     (close)="modalService.closeModal()"
   >
-    <div class="flex flex-col gap-6">
-      <div>
-        <p class="text-heading-l text-black dark:text-white">Add New Board</p>
-      </div>
-      <form [formGroup]="inputForm" (ngSubmit)="onSubmit()">
-        <!-- Board Name Input -->
-        <app-input
-          [label]="'Board Name'"
-          [placeholder]="'Enter board name'"
-          [type]="'text'"
-          [control]="nameControl"
-          [error]="!!(nameControl.invalid && nameControl.touched)"
-        ></app-input>
-      
+    <form [formGroup]="inputForm" (ngSubmit)="onSubmit()">
+      <div class="flex flex-col gap-6">
+        <div>
+          <p class="text-heading-l text-black dark:text-white">Add New Board</p>
+        </div>
+        <div>
+          <!-- Board Name Input -->
+          <app-input
+            [label]="'Board Name'"
+            [placeholder]="'Enter board name'"
+            [type]="'text'"
+            [control]="nameControl"
+            [error]="!!(nameControl.invalid && nameControl.touched)"
+          ></app-input>
+        </div>
         <!-- Columns Section -->
         <div>
           <p class="text-body-m text-medium-gray">Columns</p>
           <div class="mt-2 flex flex-col gap-3">
-            <div *ngFor="let column of columnsControl.controls; let i = index" class="w-full flex items-center justify-between">
+            <div
+              *ngFor="let column of columnsControl.controls; let i = index"
+              class="w-full flex items-center justify-between"
+            >
               <!-- Column Input -->
               <div class="w-[90%]">
                 <app-input
@@ -161,7 +165,12 @@
                   [type]="'text'"
                   [placeholder]="'e.g. Column name'"
                   [control]="getColumnControl(i)"
-                  [error]="!!(columnsControl.at(i).invalid && columnsControl.at(i).touched)"
+                  [error]="
+                    !!(
+                      columnsControl.at(i).invalid &&
+                      columnsControl.at(i).touched
+                    )
+                  "
                 ></app-input>
               </div>
               <!-- Remove Column Button -->
@@ -184,7 +193,6 @@
             </div>
           </div>
         </div>
-      
         <!-- Submit Button -->
         <div>
           <app-buttonse
@@ -193,9 +201,8 @@
             type="submit"
           ></app-buttonse>
         </div>
-      </form>
-      
-    </div>
+      </div>
+    </form>
   </app-modal>
 
   <!-- Modal for edit-board -->
