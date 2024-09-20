@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { Board } from '../../models/boards.modal';
+import { Board, Task } from '../../models/boards.modal';
 
 // Action to load boards data
 export const loadBoardsData = createAction(
@@ -17,4 +17,10 @@ export const selectBoard = createAction(
 export const addBoard = createAction(
   '[Boards] Add Board',
   props<{ board: Board }>()
+);
+
+// Action to add a task to a specific column
+export const addTaskToColumn = createAction(
+  '[Boards] Add Task to Column',
+  props<{ task: Task, columnName: string }>() // Using column name or you can use ID if you have it
 );

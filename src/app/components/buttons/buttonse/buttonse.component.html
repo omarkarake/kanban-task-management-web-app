@@ -1,5 +1,5 @@
 <button
-  type="{{ type }}"
+  type="{{ type.length > 0 ? type : 'button' }}"
   class="bg-main-purple dark:bg-white bg-opacity-25 py-[10px] px-[60px] w-full flex justify-center items-center rounded-3xl cursor-pointer text-main-purple {{
     additionalClasses
   }}"

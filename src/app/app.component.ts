@@ -7,6 +7,7 @@ import { Board, BoardsData, Column } from './models/boards.modal';
 import { Store } from '@ngrx/store';
 import {
   addBoard,
+  addTaskToColumn,
   loadBoardsData,
   selectBoard,
 } from './store/actions/boards.actions';
@@ -40,6 +41,7 @@ export class AppComponent implements OnInit {
   boardsData!: BoardsData;
   columns$!: Observable<Column[]>;
   inputForm!: FormGroup;
+  taskForm!: FormGroup;
 
   constructor(
     private themeService: ThemeService,
@@ -75,9 +77,20 @@ export class AppComponent implements OnInit {
       columns: new FormArray([]),
     });
 
+    this.taskForm = new FormGroup({
+      title: new FormControl('', [Validators.required]),
+      description: new FormControl(''),
+      status: new FormControl('', [Validators.required]), // This will be the column ID where the task is added
+      subtasks: new FormArray([]),
+    });
+
     // Subscribe to valueChanges and log the value
     this.inputForm.valueChanges.subscribe((value) => {
       console.log('Form value changes:', value);
+    });
+
+    this.taskForm.valueChanges.subscribe((value) => {
+      console.log('Task form value changes:', value);
     });
   }
 
@@ -126,6 +139,66 @@ export class AppComponent implements OnInit {
       this.inputForm.reset();
       this.columnsControl.clear(); // Clear the columns array
       this.closeModal();
+    } else {
+      console.log('Form is invalid');
+    }
+  }
+
+  // Getter for the title form control
+  get titleControl(): FormControl {
+    return this.taskForm.get('title') as FormControl;
+  }
+
+  get descriptionControl(): FormControl {
+    return this.taskForm.get('description') as FormControl;
+  }
+
+  // Getter for the subtasks FormArray
+  get subtasksControl(): FormArray {
+    return this.taskForm.get('subtasks') as FormArray;
+  }
+
+  // Getter to return a specific subtask as FormControl
+  getSubtaskControl(index: number): FormControl {
+    return this.subtasksControl.at(index) as FormControl;
+  }
+
+  // Method to add a new subtask field
+  addSubtask(): void {
+    this.subtasksControl.push(new FormControl('', Validators.required));
+  }
+
+  // Method to remove a subtask by index
+  removeSubtask(index: number): void {
+    this.subtasksControl.removeAt(index);
+  }
+
+  // Submit form and add a new task to the column
+  onSubmitTask(): void {
+    if (this.taskForm.valid) {
+      const newTask = {
+        title: this.taskForm.get('title')?.value,
+        description: this.taskForm.get('description')?.value,
+        status: this.taskForm.get('status')?.value,
+        subtasks: this.taskForm
+          .get('subtasks')
+          ?.value.map((subtask: string) => ({
+            title: subtask,
+            isCompleted: false, // Initialize with false
+          })),
+      };
+
+      // Dispatch the action to add the new task to the specified column
+      this.store.dispatch(
+        addTaskToColumn({
+          task: newTask,
+          columnName: this.taskForm.get('status')?.value, // Using the status field to get column name
+        })
+      );
+
+      // Reset the form after submission
+      this.taskForm.reset();
+      (this.taskForm.get('subtasks') as FormArray).clear(); // Clear the subtasks array
     } else {
       console.log('Form is invalid');
     }

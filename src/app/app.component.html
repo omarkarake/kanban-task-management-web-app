@@ -67,67 +67,84 @@
     </div>
   </app-modal>
 
-  <!-- Modal for add task -->
+  <!-- Modal for add-task -->
   <app-modal
     [isOpen]="(modalService.modalState$ | async) === 'add-task'"
     (close)="modalService.closeModal()"
   >
-    <div class="flex flex-col gap-6">
-      <div>
-        <p class="text-heading-l text-black dark:text-white">Add New Task</p>
-      </div>
-      <div>
-        <app-input
-          [label]="'Title'"
-          [type]="'text'"
-          [placeholder]="'e.g. Take coffee break'"
-        ></app-input>
-      </div>
-      <div>
-        <app-input
-          [label]="'Description'"
-          [type]="'textarea'"
-          [placeholder]="
-            'e.g. It’s always good to take a break. This 15 minute break will recharge the batteries a little.'
-          "
-        ></app-input>
-      </div>
-      <div>
-        <p class="text-body-m text-medium-gray">Subtasks</p>
-        <div class="mt-2 flex flex-col gap-3">
-          <div class="w-full flex items-center justify-between">
-            <div class="w-[90%]">
-              <app-input-subtask
-                [type]="'text'"
-                [placeholder]="'e.g. Make coffee'"
-              ></app-input-subtask>
+    <form [formGroup]="taskForm" (ngSubmit)="onSubmitTask()">
+      <div class="flex flex-col gap-6">
+        <div>
+          <p class="text-heading-l text-black dark:text-white">Add New Task</p>
+        </div>
+        <div>
+          <app-input
+            [label]="'Title'"
+            [type]="'text'"
+            [placeholder]="'e.g. Take coffee break'"
+            [control]="titleControl"
+            [error]="!!(titleControl.invalid && titleControl.touched)"
+          ></app-input>
+        </div>
+        <div>
+          <app-input
+            [label]="'Description'"
+            [type]="'textarea'"
+            [placeholder]="'e.g. Describe the task here...'"
+            [control]="descriptionControl"
+          ></app-input>
+        </div>
+        <div>
+          <p class="text-body-m text-medium-gray">Subtasks</p>
+          <div class="mt-2 flex flex-col gap-3">
+            <div
+              *ngFor="let subtask of subtasksControl.controls; let i = index"
+              class="w-full flex items-center justify-between"
+            >
+              <div class="w-[90%]">
+                <app-input
+                  [type]="'text'"
+                  [placeholder]="'e.g. Make coffee'"
+                  [control]="getSubtaskControl(i)"
+                  [error]="
+                    !!(
+                      getSubtaskControl(i).invalid &&
+                      getSubtaskControl(i).touched
+                    )
+                  "
+                ></app-input>
+              </div>
+              <div class="w-[10%] flex items-center justify-center">
+                <img
+                  src="assets/icon-cross.svg"
+                  alt="icon-cross"
+                  class="cursor-pointer"
+                  (click)="removeSubtask(i)"
+                />
+              </div>
             </div>
-            <div class="w-[10%] flex items-center justify-center">
-              <img
-                src="assets/icon-cross.svg"
-                alt="icon-cross"
-                class="cursor-pointer"
-              />
+            <div>
+              <app-buttonse
+                [text]="'Add New Subtask'"
+                [additionalClasses]="''"
+                (click)="addSubtask()"
+                [type]="''"
+              ></app-buttonse>
             </div>
-          </div>
-          <div>
-            <app-buttonse
-              [text]="'+ Add New Subtask'"
-              [additionalClasses]="''"
-            ></app-buttonse>
           </div>
         </div>
+        <div>
+          <app-dropdown [label]="'Status'"></app-dropdown>
+        </div>
+        <div>
+          <app-buttonse
+            [text]="'Create Task'"
+            [additionalClasses]="'!text-white !bg-main-purple'"
+            type="submit"
+          ></app-buttonse>
+        </div>
       </div>
-      <div>
-        <app-dropdown [label]="'Status'"></app-dropdown>
-      </div>
-      <div>
-        <app-buttonse
-          [text]="'Create Task'"
-          [additionalClasses]="'!text-white !bg-main-purple'"
-        ></app-buttonse>
-      </div>
-    </div>
+    </form>
   </app-modal>
 
   <!-- Modal for add-board -->

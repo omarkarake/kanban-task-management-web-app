@@ -15,7 +15,7 @@ export interface Task {
 // column.model.ts
 export interface Column {
   name: string;
-  tasks: Task[];
+  tasks: Task[]; // here
 }
 
 // board.model.ts
