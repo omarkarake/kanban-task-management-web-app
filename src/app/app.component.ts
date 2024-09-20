@@ -8,6 +8,7 @@ import { Store } from '@ngrx/store';
 import { loadBoardsData, selectBoard } from './store/actions/boards.actions';
 import { Observable } from 'rxjs';
 import { selectAllBoards, selectColumnsOfSelectedBoard } from './store/selectors/boards.selectors';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
@@ -30,6 +31,7 @@ export class AppComponent implements OnInit {
   boards$!: Observable<Board[]>;
   boardsData!: BoardsData;
   columns$!: Observable<Column[]>;
+  inputForm!: FormGroup;
 
   constructor(
     private themeService: ThemeService,
@@ -59,6 +61,28 @@ export class AppComponent implements OnInit {
     this.columns$.subscribe((columns) => {
       console.log('Selected columns in app: ', columns);
     });
+
+    this.inputForm = new FormGroup({
+      name: new FormControl('', [Validators.required])
+    });
+
+    // Subscribe to valueChanges and log the value
+    this.nameControl.valueChanges.subscribe(value => {
+      console.log('Name Control Value:', value);
+    });
+  }
+
+  onSubmit(): void {
+    if (this.inputForm.valid) {
+      console.log('Form Submitted:', this.inputForm.value);
+    } else {
+      console.log('Form is invalid');
+    }
+  }
+
+  // Getter for the name form control
+  get nameControl(): FormControl {
+    return this.inputForm.get('name') as FormControl;
   }
 
   toggleTheme() {

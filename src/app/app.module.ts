@@ -22,6 +22,7 @@ import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { HttpClientModule } from '@angular/common/http';
 import { boardsReducer } from './store/reducers/boards.reducer';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import { boardsReducer } from './store/reducers/boards.reducer';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
+    ReactiveFormsModule,
     StoreModule.forRoot({ boards: boardsReducer }),
     StoreDevtoolsModule.instrument({
       maxAge: 25,

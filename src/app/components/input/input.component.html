@@ -1,28 +1,41 @@
 <div class="flex w-full flex-col gap-2">
-  <div>
+  <div *ngIf="label.length > 0">
     <p class="text-body-m text-medium-gray dark:text-white">{{ label }}</p>
   </div>
   <div
     class="py-2 px-4 rounded-[4px] border-medium-gray border-opacity-25 border-[1px] flex items-center justify-between"
-    [ngClass]="{ 'border-red': error }"
+    [ngClass]="{
+      'border-primary-light': isTyping && !error,
+      'border-accent-light dark:border-none': !isTyping && !error,
+      'border-red': error
+    }"
   >
+    <!-- Input field for text -->
     <input
+      *ngIf="type !== 'textarea'"
       class="outline-none w-[99px] dark:bg-transparent dark:text-white"
       [type]="type"
-      placeholder="{{ placeholder }}"
+      [placeholder]="placeholder"
+      [formControl]="control"
+      (focus)="toggleIsActive()"
+      (blur)="toggleIsActive()"
+      (input)="onInput($event)"
       [ngClass]="{ '!w-full': !error }"
-      *ngIf="type !== 'textarea'"
     />
+
+    <!-- Textarea field for multiline input -->
     <textarea
       *ngIf="type === 'textarea'"
       class="outline-none w-[99px] dark:bg-transparent dark:text-white"
-      name=""
-      id=""
-      placeholder="{{ placeholder }}"
+      [placeholder]="placeholder"
+      [formControl]="control"
+      (focus)="toggleIsActive()"
+      (blur)="toggleIsActive()"
+      (input)="onInput($event)"
       [ngClass]="{ '!w-full': !error }"
     ></textarea>
-    <p class="text-body-l" *ngIf="error" [ngClass]="{ 'text-red': error }">
-      Can’t be empty
-    </p>
+
+    <!-- Error message -->
+    <p class="text-body-l text-red" *ngIf="error">Can’t be empty</p>
   </div>
 </div>
