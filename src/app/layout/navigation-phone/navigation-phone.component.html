@@ -5,7 +5,9 @@
     <div class="flex items-center gap-4">
       <div><img src="assets/logo-mobile.svg" alt="logo-mobile" /></div>
       <div class="flex items-center gap-2" (click)="toggleDropDown()">
-        <p class="text-black dark:text-white">{{ (items$ | async)?.[selectedItemIndex] }}</p>
+        <p class="text-black dark:text-white">
+          {{ (items$ | async)?.[selectedItemIndex] }}
+        </p>
         <img
           [src]="
             !dropDownOpen
@@ -57,10 +59,12 @@
   >
     <div>
       <div class="ml-[34px] mb-[5px]">
-        <p class="text-body-m text-medium-gray">ALL BOARDS ({{ ((items$ | async)?.length ?? 0) - 1 }})</p>
+        <p class="text-body-m text-medium-gray">
+          ALL BOARDS ({{ ((items$ | async)?.length ?? 0) - 1 }})
+        </p>
       </div>
       <div
-        *ngFor="let item of (items$ | async); let i = index"
+        *ngFor="let item of items$ | async; let i = index"
         class="w-[240px] lg:w-[276px] px-8 py-[14px] rounded-r-[100px] flex items-center gap-4 cursor-pointer"
         [ngClass]="{
           'bg-main-purple': selectedItemIndex === i,

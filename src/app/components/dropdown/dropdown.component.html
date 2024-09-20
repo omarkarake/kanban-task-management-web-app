@@ -10,6 +10,10 @@
     <p class="text-black dark:text-white text-body-l">{{ value }}</p>
     <img src="assets/icon-chevron-down.svg" alt="icon-chevron-down" />
   </div>
+  
+  <!-- Hidden input for reactive form control -->
+  <input type="hidden" [formControl]="control" />
+
   <div
     class="w-full bg-white dark:bg-very-dark-grey rounded-lg absolute shadow-xl bottom-[-125px]"
     *ngIf="dropDownActive"

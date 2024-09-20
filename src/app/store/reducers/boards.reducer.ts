@@ -47,20 +47,40 @@ export const boardsReducer = createReducer(
 
   // Handle adding a task to a specific column
   on(addTaskToColumn, (state, { task, columnName }) => {
+    console.log('Dispatched addTaskToColumn action');
+    console.log('Task:', task);
+    console.log('Column Name:', columnName);
+    console.log('Selected Board Index:', state.selectedBoardIndex);
+
     if (state.selectedBoardIndex === null) {
-      return state; // or handle the null case appropriately
+      console.error('No board selected');
+      return state;
     }
-    return adapter.mapOne({
-      id: state.selectedBoardIndex, // Assuming you're working with a selected board index
-      map: (board) => ({
-        ...board,
-        columns: board.columns.map(column => 
-          column.name === columnName
-            ? { ...column, tasks: [...column.tasks, task] }  // Add task to the correct column
-            : column
-        )
-      })
-    }, state);
+
+    const selectedBoard = state.entities[state.selectedBoardIndex];
+    console.log('Selected Board:', selectedBoard);
+
+    if (!selectedBoard) {
+      console.error('No board found for selected index');
+      return state;
+    }
+
+    return adapter.updateOne(
+      {
+        id: selectedBoard.id,
+        changes: {
+          columns: selectedBoard.columns.map((column) =>
+            column.name === columnName
+              ? {
+                  ...column,
+                  tasks: [...column.tasks, task], // Add task to the correct column
+                }
+              : column
+          ),
+        },
+      },
+      state
+    );
   })
 );
 

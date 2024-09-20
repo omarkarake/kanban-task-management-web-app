@@ -153,6 +153,10 @@ export class AppComponent implements OnInit {
     return this.taskForm.get('description') as FormControl;
   }
 
+  get statusControl(): FormControl {
+    return this.taskForm.get('status') as FormControl;
+  }
+
   // Getter for the subtasks FormArray
   get subtasksControl(): FormArray {
     return this.taskForm.get('subtasks') as FormArray;
