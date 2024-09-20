@@ -70,12 +70,11 @@ export class AppComponent implements OnInit {
       console.log('Selected columns in app: ', columns);
     });
 
-    
     this.inputForm = new FormGroup({
       name: new FormControl('', [Validators.required]),
       columns: new FormArray([]),
     });
-    
+
     // Subscribe to valueChanges and log the value
     this.inputForm.valueChanges.subscribe((value) => {
       console.log('Form value changes:', value);
@@ -126,6 +125,7 @@ export class AppComponent implements OnInit {
       // Reset the form after submission
       this.inputForm.reset();
       this.columnsControl.clear(); // Clear the columns array
+      this.closeModal();
     } else {
       console.log('Form is invalid');
     }
@@ -147,16 +147,6 @@ export class AppComponent implements OnInit {
   toggleDropDownBackdropLarge() {
     // this.backDropFilterLarge = !this.backDropFilterLarge;
   }
-
-  // closeModal() {
-  //   this.backDropFilterLarge = false;
-  //   this.isViewTaskModalOpen = false;
-  //   this.isAddTaskModalOpen = false;
-  //   this.isEditTaskModalOpen = false;
-  //   this.isAddBoardModalOpen = false;
-  //   this.isEditBoardModalOpen = false;
-  //   this.isDeleteBoardModalOpen = false;
-  // }
 
   // Function to open the 'add-task' modal
   openAddTaskModal() {
