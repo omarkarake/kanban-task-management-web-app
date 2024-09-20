@@ -3,10 +3,10 @@
     <p class="text-body-m text-medium-gray dark:text-white">{{ label }}</p>
   </div>
   <div
-    class="py-2 px-4 rounded-[4px] border-medium-gray border-opacity-25 border-[1px] flex items-center justify-between"
+    class="py-2 px-4 rounded-[4px] border-opacity-25 border-[1px] flex items-center justify-between"
     [ngClass]="{
       'border-primary-light': isTyping && !error,
-      'border-accent-light dark:border-none': !isTyping && !error,
+      'border-accent-light': !isTyping && !error,
       'border-red': error
     }"
   >
