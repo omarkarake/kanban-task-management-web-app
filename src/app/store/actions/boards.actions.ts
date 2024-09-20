@@ -12,3 +12,9 @@ export const selectBoard = createAction(
   '[Boards] Select Board',
   props<{ index: number }>()
 );
+
+// Action to add a new board to the store
+export const addBoard = createAction(
+  '[Boards] Add Board',
+  props<{ board: Board }>()
+);

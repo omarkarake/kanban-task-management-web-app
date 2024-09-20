@@ -38,7 +38,11 @@ export const boardsReducer = createReducer(
   on(BoardsActions.selectBoard, (state, { index }) => ({
     ...state,
     selectedBoardIndex: index,
-  }))
+  })),
+
+  on(BoardsActions.addBoard, (state, { board }) => {
+    return adapter.addOne(board, state);
+  })
 );
 
 // Export selectors for getting entities and the state

@@ -135,17 +135,67 @@
     [isOpen]="(modalService.modalState$ | async) === 'add-board'"
     (close)="modalService.closeModal()"
   >
-  <form [formGroup]="inputForm" (ngSubmit)="onSubmit()">
-    <app-input
-      [label]="'Name'"
-      [placeholder]="'Enter your name'"
-      [type]="'text'"
-      [control]="nameControl"
-      [error]="!!(nameControl.invalid && nameControl.touched)"
-    ></app-input>
-
-    <button type="submit">Submit</button>
-  </form>
+    <div class="flex flex-col gap-6">
+      <div>
+        <p class="text-heading-l text-black dark:text-white">Add New Board</p>
+      </div>
+      <form [formGroup]="inputForm" (ngSubmit)="onSubmit()">
+        <!-- Board Name Input -->
+        <app-input
+          [label]="'Board Name'"
+          [placeholder]="'Enter board name'"
+          [type]="'text'"
+          [control]="nameControl"
+          [error]="!!(nameControl.invalid && nameControl.touched)"
+        ></app-input>
+      
+        <!-- Columns Section -->
+        <div>
+          <p class="text-body-m text-medium-gray">Columns</p>
+          <div class="mt-2 flex flex-col gap-3">
+            <div *ngFor="let column of columnsControl.controls; let i = index" class="w-full flex items-center justify-between">
+              <!-- Column Input -->
+              <div class="w-[90%]">
+                <app-input
+                  [label]="''"
+                  [type]="'text'"
+                  [placeholder]="'e.g. Column name'"
+                  [control]="getColumnControl(i)"
+                  [error]="!!(columnsControl.at(i).invalid && columnsControl.at(i).touched)"
+                ></app-input>
+              </div>
+              <!-- Remove Column Button -->
+              <div class="w-[10%] flex items-center justify-center">
+                <img
+                  src="assets/icon-cross.svg"
+                  alt="icon-cross"
+                  class="cursor-pointer"
+                  (click)="removeColumn(i)"
+                />
+              </div>
+            </div>
+            <!-- Add New Column Button -->
+            <div>
+              <app-buttonse
+                [text]="'Add New Column'"
+                [additionalClasses]="''"
+                (click)="addColumn()"
+              ></app-buttonse>
+            </div>
+          </div>
+        </div>
+      
+        <!-- Submit Button -->
+        <div>
+          <app-buttonse
+            [text]="'Create New Board'"
+            [additionalClasses]="'!text-white !bg-main-purple'"
+            type="submit"
+          ></app-buttonse>
+        </div>
+      </form>
+      
+    </div>
   </app-modal>
 
   <!-- Modal for edit-board -->
