@@ -209,6 +209,10 @@ export class AppComponent implements OnInit {
     );
   }
 
+  addColumnForBoard(): void {
+    this.columnsControl.push(this.fb.control('', Validators.required));
+  }
+
   // Remove column control
   removeColumnForEditBoard(index: number): void {
     this.columnsControlForEditBoard.removeAt(index);
