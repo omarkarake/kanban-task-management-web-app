@@ -19,7 +19,7 @@ export class ColumnComponent implements OnInit {
       this.subtasks.push(...task.subtasks);
     });
 
-    console.log("subtasks are: ", this.subtasks);
+    // console.log("subtasks are: ", this.subtasks);
   }
   openModal() {
     this.modalService.openModal('view-task');

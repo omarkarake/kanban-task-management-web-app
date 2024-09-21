@@ -65,7 +65,7 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.boardsService.getBoardsData().subscribe((data: BoardsData) => {
       // this.boardsData = data;
-      console.log('fetched datas: ', data);
+      // console.log('fetched datas: ', data);
       this.store.dispatch(loadBoardsData({ boards: data.boards }));
       // Dispatch an action to select the first board by default
       if (data.boards.length > 0) {
@@ -80,7 +80,7 @@ export class AppComponent implements OnInit {
     this.columns$ = this.store.select(selectColumnsOfSelectedBoard);
 
     this.columns$.subscribe((columns) => {
-      console.log('Selected columns in app: ', columns);
+      // console.log('Selected columns in app: ', columns);
     });
 
     this.inputForm = new FormGroup({
@@ -101,15 +101,15 @@ export class AppComponent implements OnInit {
 
     // Subscribe to valueChanges and log the value
     this.inputForm.valueChanges.subscribe((value) => {
-      console.log('Form value changes:', value);
+      // console.log('Form value changes:', value);
     });
 
     this.taskForm.valueChanges.subscribe((value) => {
-      console.log('Task form value changes:', value);
+      // console.log('Task form value changes:', value);
     });
 
     this.columnForm.valueChanges.subscribe((value) => {
-      console.log('Column form value changes:', value);
+      // console.log('Column form value changes:', value);
     });
 
     // Get selected board index and board IDs as observables
@@ -133,7 +133,7 @@ export class AppComponent implements OnInit {
 
     // Subscribe to the selectedBoard$ observable and log the result
     this.selectedBoard$.subscribe((board) => {
-      console.log('Selected board in app afterview:', board);
+      // console.log('Selected board in app afterview:', board);
     });
 
     // Subscribe to the selected board and populate the form when it changes
@@ -150,7 +150,7 @@ export class AppComponent implements OnInit {
     });
 
     this.editBoardForm.valueChanges.subscribe((value) => {
-      console.log('Edit board form value changes:', value);
+      // console.log('Edit board form value changes:', value);
     });
   }
 
@@ -243,7 +243,7 @@ export class AppComponent implements OnInit {
 
   // Submit form and add a new board to the store
   onSubmit(): void {
-    console.log('Form submitted:', this.inputForm.value);
+    // console.log('Form submitted:', this.inputForm.value);
     if (this.inputForm.valid) {
       const newBoard = {
         id: uuidv4(), // Generate unique ID
@@ -262,7 +262,7 @@ export class AppComponent implements OnInit {
       this.columnsControl.clear(); // Clear the columns array
       this.closeModal();
     } else {
-      console.log('Form is invalid');
+      // console.log('Form is invalid');
     }
   }
 
@@ -327,7 +327,7 @@ export class AppComponent implements OnInit {
       (this.taskForm.get('subtasks') as FormArray).clear(); // Clear the subtasks array
       this.closeModal();
     } else {
-      console.log('Form is invalid');
+      // console.log('Form is invalid');
     }
   }
 
@@ -346,7 +346,7 @@ export class AppComponent implements OnInit {
       this.columnForm.reset();
       this.closeModal();
     } else {
-      console.log('Form is invalid');
+      // console.log('Form is invalid');
     }
   }
 
