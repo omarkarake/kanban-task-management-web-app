@@ -255,11 +255,14 @@ export const boardsReducer = createReducer(
     );
   }),
 
-  on(BoardsActions.updateTaskInStore, (state, { task }) => {
+  // Reducer to handle task update
+  on(BoardsActions.updateTaskInStore, (state, { task, originalTitle }) => {
     if (state.selectedBoardIndex === null) {
       console.error('No board selected');
       return state;
     }
+
+    console.log('task in reducer:', task);
 
     const selectedBoard = state.entities[state.ids[state.selectedBoardIndex]];
     if (!selectedBoard) {
@@ -267,12 +270,12 @@ export const boardsReducer = createReducer(
       return state;
     }
 
-    // Step 1: Remove the task from its current column
+    // Step 1: Remove the task from its current column using the originalTitle
     let taskToUpdate: Task | null = null;
     const updatedColumnsWithoutTask = selectedBoard.columns.map((column) => ({
       ...column,
       tasks: column.tasks.filter((existingTask) => {
-        if (existingTask.title === task.title) {
+        if (existingTask.title === originalTitle) {
           taskToUpdate = existingTask; // Store the task for later use
           return false; // Remove the task from the current column
         }

@@ -55,8 +55,8 @@ export const updateTaskStatus = createAction(
   props<{ taskId: string; newStatus: string }>()
 );
 
-// Action to update the task in the store
+// Action definition (update with original title)
 export const updateTaskInStore = createAction(
   '[Boards] Update Task In Store',
-  props<{ task: Task }>()
+  props<{ task: Task; originalTitle: string }>() // Include the originalTitle
 );

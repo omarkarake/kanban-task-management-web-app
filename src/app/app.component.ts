@@ -69,6 +69,8 @@ export class AppComponent implements OnInit {
   selectedBoard$!: Observable<Board | undefined>; // Observable for the selected board
   selectedBoardIndex$!: Observable<number | null>; // Store the index of selected board
 
+  originalTaskTitle!: string;
+
   constructor(
     private themeService: ThemeService,
     private largenavService: LargenavService,
@@ -399,19 +401,23 @@ export class AppComponent implements OnInit {
         title: this.editTaskForm.get('title')?.value,
         description: this.editTaskForm.get('description')?.value,
         status: this.editTaskForm.get('status')?.value,
-        subtasks: this.subtasksEditControl.value.map(
-          (subtask: string, index: number) => ({
-            title: subtask,
-            isCompleted:
-              this.selectedTask.subtasks[index]?.isCompleted || false, // Preserve completion status
-          })
-        ),
+        subtasks: this.subtasksEditControl.controls.map((control, index) => ({
+          title:
+            control.get('title')?.value ||
+            this.selectedTask.subtasks[index]?.title, // Get title from form or fallback to the original title
+          isCompleted: this.selectedTask.subtasks[index]?.isCompleted || false, // Preserve the original isCompleted state
+        })),
       };
 
-      // Dispatch an action to update the task in the store
-      this.store.dispatch(updateTaskInStore({ task: updatedTask }));
+      // Dispatch action to update the task with the original title
+      this.store.dispatch(
+        updateTaskInStore({
+          task: updatedTask,
+          originalTitle: this.originalTaskTitle, // Pass the original title
+        })
+      );
 
-      this.closeEditTaskModal();
+      this.closeEditTaskModal(); // Close modal after submission
     } else {
       console.log('Form is invalid');
     }
@@ -599,6 +605,7 @@ export class AppComponent implements OnInit {
   // Method to open the edit task modal
   openEditTaskModal(task: Task): void {
     this.selectedTask = task; // Store the selected task
+    this.originalTaskTitle = task.title; // Store the original title before editing
     this.populateEditTaskForm(task); // Populate the form with the task data
     this.modalService.openModal('edit-task'); // Open the edit-task modal
   }
