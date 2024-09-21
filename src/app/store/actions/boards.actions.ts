@@ -30,3 +30,9 @@ export const addColumnToBoard = createAction(
   '[Boards] Add Column to Board',
   props<{ column: Column }>()
 );
+
+// boards.actions.ts
+export const updateBoard = createAction(
+  '[Boards] Update Board',
+  props<{ board: Board }>()
+);

@@ -11,6 +11,7 @@ import {
   addTaskToColumn,
   loadBoardsData,
   selectBoard,
+  updateBoard,
 } from './store/actions/boards.actions';
 import { combineLatest, map, Observable, of, switchMap } from 'rxjs';
 import {
@@ -20,7 +21,7 @@ import {
   selectIds,
   selectSelectedBoardIndex,
 } from './store/selectors/boards.selectors';
-import { FormGroup, FormControl, FormArray, Validators } from '@angular/forms';
+import { FormGroup, FormControl, FormArray, Validators, FormBuilder } from '@angular/forms';
 import { v4 as uuidv4 } from 'uuid';
 
 @Component({
@@ -28,7 +29,7 @@ import { v4 as uuidv4 } from 'uuid';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
-export class AppComponent implements OnInit, AfterViewInit {
+export class AppComponent implements OnInit {
   layoutSideBarOpen: boolean = false;
   backDropFilter: boolean = false;
   backDropFilterLarge: boolean = false;
@@ -57,7 +58,8 @@ export class AppComponent implements OnInit, AfterViewInit {
     private largenavService: LargenavService,
     public modalService: ModalService,
     private boardsService: BoardsService,
-    private store: Store
+    private store: Store,
+    private fb: FormBuilder
   ) {}
 
   ngOnInit(): void {
@@ -97,19 +99,6 @@ export class AppComponent implements OnInit, AfterViewInit {
       name: new FormControl('', [Validators.required]),
     });
 
-    // Fetch the selected board using the selectedBoardIndex from the store
-    // this.selectedBoard$ = this.selectedBoardIndex$.pipe(
-    //   switchMap((index) =>
-    //     index !== null
-    //       ? this.store.select(selectIds).pipe(
-    //           switchMap((ids: string[]) =>
-    //             this.store.select(selectBoardById(ids[index])) // Get the board by ID
-    //           )
-    //         )
-    //       : of(undefined)
-    //   )
-    // );
-
     // Subscribe to valueChanges and log the value
     this.inputForm.valueChanges.subscribe((value) => {
       console.log('Form value changes:', value);
@@ -122,9 +111,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     this.columnForm.valueChanges.subscribe((value) => {
       console.log('Column form value changes:', value);
     });
-  }
 
-  ngAfterViewInit(): void {
     // Get selected board index and board IDs as observables
     this.selectedBoardIndex$ = this.store.select(selectSelectedBoardIndex);
     const boardIds$ = this.store.select(selectIds);
@@ -148,6 +135,26 @@ export class AppComponent implements OnInit, AfterViewInit {
     this.selectedBoard$.subscribe((board) => {
       console.log('Selected board in app afterview:', board);
     });
+
+    // Subscribe to the selected board and populate the form when it changes
+    this.selectedBoard$.subscribe((board) => {
+      if (board) {
+        this.populateEditBoardForm(board);
+      }
+    });
+
+    // Initialize the form
+    this.editBoardForm = this.fb.group({
+      name: ['', [Validators.required]],
+      columns: this.fb.array([]) // We'll populate this array dynamically
+    });
+
+    this.editBoardForm.valueChanges.subscribe((value) => {
+      console.log('Edit board form value changes:', value);
+    });
+  }
+
+  ngAfterViewInit(): void {
   }
   // getter for the name form control for the column
   get columnNameControl(): FormControl {
@@ -164,6 +171,16 @@ export class AppComponent implements OnInit, AfterViewInit {
     return this.inputForm.get('columns') as FormArray;
   }
 
+  // Getter for name control for edit board
+  get nameControlForEditBoard(): FormControl {
+    return this.editBoardForm.get('name') as FormControl;
+  }
+
+  // Getter for columns array for edit board
+  get columnsControlForEditBoard(): FormArray {
+    return this.editBoardForm.get('columns') as FormArray;
+  }
+
   // Getter to return a specific column as FormControl
   getColumnControl(index: number): FormControl {
     return this.columnsControl.at(index) as FormControl;
@@ -177,6 +194,51 @@ export class AppComponent implements OnInit, AfterViewInit {
   // Method to remove a column by index
   removeColumn(index: number): void {
     this.columnsControl.removeAt(index);
+  }
+
+  // Add new column control
+  addColumnForEditBoard(): void {
+    this.columnsControlForEditBoard.push(this.fb.control('', Validators.required));
+  }
+
+  // Remove column control
+  removeColumnForEditBoard(index: number): void {
+    this.columnsControlForEditBoard.removeAt(index);
+  }
+
+  // Get individual column controls
+  getColumnControlForEditBoard(index: number): FormControl {
+    return this.columnsControlForEditBoard.at(index) as FormControl;
+  }
+
+  // Populate form with selected board data
+  populateEditBoardForm(board: Board): void {
+    this.editBoardForm.patchValue({
+      name: board.name
+    });
+
+    // Clear columns form array before adding new ones
+    this.columnsControlForEditBoard.clear();
+
+    board.columns.forEach(column => {
+      this.columnsControlForEditBoard.push(this.fb.control(column.name, Validators.required));
+    });
+  }
+
+  // Submit the updated board
+  onSubmitEditBoard(): void {
+    if (this.editBoardForm.valid) {
+      const updatedBoard = {
+        ...this.editBoardForm.value,
+        columns: this.columnsControlForEditBoard.value.map((columnName: string) => ({
+          name: columnName,
+          tasks: [] // We are not updating tasks here, just column names
+        }))
+      };
+
+      this.store.dispatch(updateBoard({ board: updatedBoard }));
+      this.modalService.closeModal();
+    }
   }
 
   // Submit form and add a new board to the store

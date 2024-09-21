@@ -262,50 +262,73 @@
     [isOpen]="(modalService.modalState$ | async) === 'edit-board'"
     (close)="modalService.closeModal()"
   >
+  <form [formGroup]="editBoardForm" (ngSubmit)="onSubmitEditBoard()">
     <div class="flex flex-col gap-6">
       <div>
         <p class="text-heading-l text-black dark:text-white">Edit Board</p>
       </div>
+      <!-- Board Name Input -->
       <div>
         <app-input
-          [label]="'Name'"
+          [label]="'Board Name'"
           [type]="'text'"
-          [placeholder]="'e.g. Take coffee break'"
+          [placeholder]="'e.g. Project Board'"
+          [control]="nameControlForEditBoard"
+          [error]="!!(nameControlForEditBoard.invalid && nameControlForEditBoard.touched)"
         ></app-input>
       </div>
+      <!-- Columns Section -->
       <div>
         <p class="text-body-m text-medium-gray">Columns</p>
         <div class="mt-2 flex flex-col gap-3">
-          <div class="w-full flex items-center justify-between">
+          <div
+            class="w-full flex items-center justify-between"
+            *ngFor="let column of columnsControlForEditBoard.controls; let i = index"
+          >
+            <!-- Column Input -->
             <div class="w-[90%]">
-              <app-input-subtask
+              <app-input
                 [type]="'text'"
-                [placeholder]="'e.g. Make coffee'"
-              ></app-input-subtask>
+                [placeholder]="'e.g. To Do'"
+                [control]="getColumnControlForEditBoard(i)"
+                [error]="
+                  !!(
+                    getColumnControlForEditBoard(i).invalid &&
+                    getColumnControlForEditBoard(i).touched
+                  )
+                "
+              ></app-input>
             </div>
+            <!-- Remove Column Button -->
             <div class="w-[10%] flex items-center justify-center">
               <img
                 src="assets/icon-cross.svg"
                 alt="icon-cross"
                 class="cursor-pointer"
+                (click)="removeColumnForEditBoard(i)"
               />
             </div>
           </div>
+          <!-- Add New Column Button -->
           <div>
             <app-buttonse
               [text]="'+ Add New Column'"
               [additionalClasses]="''"
+              (click)="addColumnForEditBoard()"
             ></app-buttonse>
           </div>
         </div>
       </div>
+      <!-- Save Changes Button -->
       <div>
         <app-buttonse
           [text]="'Save Changes'"
           [additionalClasses]="'!text-white !bg-main-purple'"
+          type="submit"
         ></app-buttonse>
       </div>
     </div>
+  </form>
   </app-modal>
 
   <!-- Modal for delete-board -->
