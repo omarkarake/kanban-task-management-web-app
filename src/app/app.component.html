@@ -64,7 +64,7 @@
         </div>
       </div>
       <div>
-        <app-dropdown [value]="selectedTask.status" [options]="(columnsNames$ | async) ?? []" [label]="'Current Status'"></app-dropdown>
+        <app-dropdown [value]="selectedTask.status" [options]="(columnsNames$ | async) ?? []" [label]="'Current Status'" (selectionChange)="onStatusChange($event)"></app-dropdown>
       </div>
     </div>
   </app-modal>

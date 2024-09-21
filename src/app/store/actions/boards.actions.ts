@@ -48,3 +48,9 @@ export const updateSubtaskInTask = createAction(
   '[Boards] Update Subtask in Task',
   props<{ taskId: string; updatedSubtasks: Subtask[] }>()
 );
+
+// Action to update the status of a task
+export const updateTaskStatus = createAction(
+  '[Boards] Update Task Status',
+  props<{ taskId: string; newStatus: string }>()
+);

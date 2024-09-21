@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
 @Component({
@@ -11,6 +11,7 @@ export class DropdownComponent implements OnInit {
   @Input() options: string[] = ['Todo', 'Doing', 'Done'];
   @Input() value?: string; // Mark value as optional
   @Input() control: FormControl = new FormControl(); // Form control to bind with reactive forms
+  @Output() selectionChange = new EventEmitter<string>(); // Emit selection change
   dropDownActive: boolean = false;
 
   constructor() {}
@@ -33,6 +34,7 @@ export class DropdownComponent implements OnInit {
   selectOption(option: string) {
     this.value = option;
     this.control.setValue(option); // Update the form control value when an option is selected
+    this.selectionChange.emit(option); // Emit selected option
     this.dropDownActive = false;
   }
 

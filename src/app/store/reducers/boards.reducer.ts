@@ -197,7 +197,37 @@ export const boardsReducer = createReducer(
         state
       );
     }
-  )
+  ),
+
+  on(BoardsActions.updateTaskStatus, (state, { taskId, newStatus }) => {
+    if (state.selectedBoardIndex === null) {
+      console.error('No board selected');
+      return state;
+    }
+
+    const selectedBoard = state.entities[state.ids[state.selectedBoardIndex]];
+    if (!selectedBoard) {
+      console.error('No board found for selected index');
+      return state;
+    }
+
+    // Find the task and update the status
+    const updatedColumns = selectedBoard.columns.map((column) => ({
+      ...column,
+      tasks: column.tasks.map((task) =>
+        task.title === taskId ? { ...task, status: newStatus } : task
+      ),
+    }));
+
+    // Update the state with the new task status
+    return adapter.updateOne(
+      {
+        id: selectedBoard.id,
+        changes: { columns: updatedColumns },
+      },
+      state
+    );
+  })
 );
 
 // Export selectors for getting entities and the state

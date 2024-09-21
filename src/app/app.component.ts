@@ -14,6 +14,7 @@ import {
   selectBoard,
   updateBoard,
   updateSubtaskInTask,
+  updateTaskStatus,
 } from './store/actions/boards.actions';
 import { combineLatest, first, map, Observable, of, switchMap } from 'rxjs';
 import {
@@ -191,6 +192,16 @@ export class AppComponent implements OnInit {
   // getter for the name form control for the column
   get columnNameControl(): FormControl {
     return this.columnForm.get('name') as FormControl;
+  }
+
+  onStatusChange(newStatus: string) {
+    if (this.selectedTask) {
+      // Dispatch an action to update the task's status in the store
+      this.store.dispatch(updateTaskStatus({
+        taskId: this.selectedTask.title, // assuming taskId is the title, or replace it with a proper taskId field if available
+        newStatus: newStatus
+      }));
+    }
   }
 
   // Method to open the task modal and log the task
