@@ -7,7 +7,9 @@
     [ngClass]="{ '!border-main-purple': dropDownActive }"
     (click)="toggleDropDown()"
   >
-    <p class="text-black dark:text-white text-body-l">{{ value }}</p>
+    <p class="text-black dark:text-white text-body-l"
+    [ngClass]="{ 'py-2': !value }"
+    >{{ value }}</p>
     <img src="assets/icon-chevron-down.svg" alt="icon-chevron-down" />
   </div>
   

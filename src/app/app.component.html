@@ -11,58 +11,36 @@
   <app-modal
     [isOpen]="(modalService.modalState$ | async) === 'view-task'"
     (close)="closeModal()"
+    *ngIf="selectedTask"
   >
     <div class="flex flex-col gap-6">
       <div class="flex items-center justify-between">
         <p class="text-heading-l text-black dark:text-white">
-          Research pricing points of various competitors and trial different
-          business models
+          {{ selectedTask.title }}
+          <!-- Display the selected task title -->
         </p>
-        <div class="relative cursor-pointer">
-          <img
-            src="assets/icon-vertical-ellipsis.svg"
-            alt="icon-vertical-ellipsis"
-            (click)="toggleDropDown()"
-            class="cursor-pointer w-[10px] h-[20px]"
-          />
-          <div
-            *ngIf="dropDownActive"
-            class="p-4 flex flex-col gap-4 w-[192px] rounded-xl absolute right-0 top-10 bg-white dark:bg-dark-gray shadow-lg"
-          >
-            <p
-              class="text-medium-gray text-body-l"
-              (click)="selectOption('edit')"
-            >
-              Edit Task
-            </p>
-            <p class="text-red text-body-l" (click)="selectOption('delete')">
-              Delete Task
-            </p>
-          </div>
-        </div>
       </div>
       <div class="">
         <p class="text-body-l text-medium-gray">
-          We know what we're planning to build for version one. Now we need to
-          finalise the first pricing model we'll use. Keep iterating the
-          subtasks until we have a coherent proposition.
+          {{ selectedTask.description }}
+          <!-- Display the selected task description -->
         </p>
       </div>
       <div>
-        <p class="text-body-m text-medium-gray">Subtasks (2 of 3)</p>
+        <p class="text-body-m text-medium-gray">
+          Subtasks ({{ completedSubtasksCount }} of {{ totalSubtasksCount }})
+        </p>
         <div class="flex flex-col gap-2 mt-4">
-          <app-subtask-checkbox
-            [title]="'Research competitor pricing and business models'"
-            [isChecked]="true"
-          ></app-subtask-checkbox>
-          <app-subtask-checkbox
-            [title]="'Surveying and testing'"
-            [isChecked]="false"
-          ></app-subtask-checkbox>
+          <div *ngFor="let subtask of selectedTask?.subtasks">
+            <app-subtask-checkbox
+              [title]="subtask.title"
+              [isChecked]="subtask.isCompleted"
+            ></app-subtask-checkbox>
+          </div>
         </div>
       </div>
       <div>
-        <app-dropdown [label]="'Current Status'"></app-dropdown>
+        <app-dropdown [value]="selectedTask.status" [options]="(columnsNames$ | async) ?? []" [label]="'Current Status'"></app-dropdown>
       </div>
     </div>
   </app-modal>

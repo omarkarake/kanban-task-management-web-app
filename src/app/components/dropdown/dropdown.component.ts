@@ -9,17 +9,22 @@ import { FormControl } from '@angular/forms';
 export class DropdownComponent implements OnInit {
   @Input() label: string = 'Dropdown';
   @Input() options: string[] = ['Todo', 'Doing', 'Done'];
-  @Input() value: string = this.options[0]; // Default selected value
-  @Input() control: FormControl = new FormControl(this.value); // Form control to bind with reactive forms
+  @Input() value?: string; // Mark value as optional
+  @Input() control: FormControl = new FormControl(); // Form control to bind with reactive forms
   dropDownActive: boolean = false;
 
-  constructor() {
-  }
+  constructor() {}
 
   ngOnInit(): void {
-    this.options.length <= 0
-    ? (this.options = ['Todo', 'Doing', 'Done'])
-    : this.options;
+    // If options are not provided, set default options
+    if (this.options.length <= 0) {
+      this.options = ['Todo', 'Doing', 'Done'];
+    }
+
+    // If value is not provided, set it to the first option
+    if (!this.value) {
+      this.value = this.options[0];
+    }
 
     // Initialize the form control value with the selected value
     this.control.setValue(this.value);

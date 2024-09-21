@@ -3,7 +3,7 @@ import { ThemeService } from './services/theme/theme.service';
 import { LargenavService } from './services/navigation/largenav.service';
 import { ModalService } from './services/theme/modal/modal.service';
 import { BoardsService } from './services/boardsFetchData/boards.service';
-import { Board, BoardsData, Column } from './models/boards.modal';
+import { Board, BoardsData, Column, Task } from './models/boards.modal';
 import { Store } from '@ngrx/store';
 import {
   addBoard,
@@ -57,6 +57,8 @@ export class AppComponent implements OnInit {
   columnForm!: FormGroup;
 
   columnsNames$!: Observable<string[]>;
+
+  selectedTask!: Task; // Store the selected task
 
   editBoardForm!: FormGroup; // Form for editing board
   selectedBoard$!: Observable<Board | undefined>; // Observable for the selected board
@@ -188,6 +190,30 @@ export class AppComponent implements OnInit {
   // getter for the name form control for the column
   get columnNameControl(): FormControl {
     return this.columnForm.get('name') as FormControl;
+  }
+
+  // Method to open the task modal and log the task
+  openTaskModal(task: Task): void {
+    this.selectedTask = task; // Set the selected task
+    console.log('Selected task:', task); // Log the selected task to the console
+    this.modalService.openModal('view-task'); // Open the modal
+  }
+
+  // Getter to calculate completed subtasks count
+  get completedSubtasksCount(): number {
+    if (!this.selectedTask || !this.selectedTask.subtasks) {
+      return 0;
+    }
+    return this.selectedTask.subtasks.filter((subtask) => subtask.isCompleted)
+      .length;
+  }
+
+  // Getter to calculate total subtasks count
+  get totalSubtasksCount(): number {
+    if (!this.selectedTask || !this.selectedTask.subtasks) {
+      return 0;
+    }
+    return this.selectedTask.subtasks.length;
   }
 
   // Getter for the name form control

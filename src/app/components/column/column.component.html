@@ -18,7 +18,7 @@
     <div
       class="py-[23px] px-4 bg-white dark:bg-dark-gray rounded-lg shadow-md flex flex-col gap-2 cursor-pointer"
       *ngFor="let task of tasks"
-      (click)="openModal()"
+      (click)="openTaskModal(task)"
     >
       <p class="text-heading-m text-black dark:text-white">
         {{ task.title }}
