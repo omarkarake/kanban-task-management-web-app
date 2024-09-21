@@ -60,11 +60,15 @@
               (checkboxToggled)="onSubtaskToggled(i, subtask.isCompleted)"
             ></app-subtask-checkbox>
           </div>
-          
         </div>
       </div>
       <div>
-        <app-dropdown [value]="selectedTask.status" [options]="(columnsNames$ | async) ?? []" [label]="'Current Status'" (selectionChange)="onStatusChange($event)"></app-dropdown>
+        <app-dropdown
+          [value]="selectedTask.status"
+          [options]="(columnsNames$ | async) ?? []"
+          [label]="'Current Status'"
+          (selectionChange)="onStatusChange($event)"
+        ></app-dropdown>
       </div>
     </div>
   </app-modal>
@@ -369,64 +373,107 @@
   <!-- Modal for edit task -->
   <app-modal
     [isOpen]="(modalService.modalState$ | async) === 'edit-task'"
-    (close)="modalService.closeModal()"
+    (close)="closeEditTaskModal()"
   >
-    <div class="flex flex-col gap-6">
-      <div>
-        <p class="text-heading-l text-black dark:text-white">Add New Task</p>
-      </div>
-      <div>
-        <app-input
-          [label]="'Title'"
-          [type]="'text'"
-          [placeholder]="'e.g. Take coffee break'"
-        ></app-input>
-      </div>
-      <div>
-        <app-input
-          [label]="'Description'"
-          [type]="'textarea'"
-          [placeholder]="
-            'e.g. It’s always good to take a break. This 15 minute break will recharge the batteries a little.'
-          "
-        ></app-input>
-      </div>
-      <div>
-        <p class="text-body-m text-medium-gray">Subtasks</p>
-        <div class="mt-2 flex flex-col gap-3">
-          <div class="w-full flex items-center justify-between">
-            <div class="w-[90%]">
-              <app-input-subtask
-                [type]="'text'"
-                [placeholder]="'e.g. Make coffee'"
-              ></app-input-subtask>
+    <form [formGroup]="editTaskForm" (ngSubmit)="onSubmitTaskEdit()">
+      <div class="flex flex-col gap-6">
+        <div>
+          <p class="text-heading-l text-black dark:text-white">Edit Task</p>
+        </div>
+        <!-- Populate title -->
+        <div>
+          <app-input
+            [label]="'Title'"
+            [type]="'text'"
+            [placeholder]="'e.g. Take coffee break'"
+            [control]="editTaskTitle"
+            [error]="
+              !!(
+                editTaskForm.get('title')?.invalid &&
+                editTaskForm.get('title')?.touched
+              )
+            "
+          ></app-input>
+        </div>
+        <!-- Populate description -->
+        <div>
+          <app-input
+            [label]="'Description'"
+            [type]="'textarea'"
+            [placeholder]="'e.g. Describe the task here...'"
+            [control]="editStatusDescription"
+          ></app-input>
+        </div>
+        <!-- Subtasks -->
+        <div>
+          <p class="text-body-m text-medium-gray">Subtasks</p>
+          <div class="mt-2 flex flex-col gap-3">
+            <div
+              *ngFor="
+                let subtask of subtasksEditControl.controls;
+                let i = index
+              "
+              class="w-full flex items-center justify-between"
+            >
+              <div class="w-[90%]">
+                <app-input
+                  [type]="'text'"
+                  [placeholder]="'e.g. Make coffee'"
+                  [control]="getSubtaskEditControl(i)"
+                  [error]="
+                    !!(
+                      getSubtaskEditControl(i).invalid &&
+                      getSubtaskEditControl(i).touched
+                    )
+                  "
+                ></app-input>
+              </div>
+              <div class="w-[10%] flex items-center justify-center">
+                <img
+                  src="assets/icon-cross.svg"
+                  alt="icon-cross"
+                  class="cursor-pointer"
+                  (click)="removeSubtaskEdit(i)"
+                />
+              </div>
             </div>
-            <div class="w-[10%] flex items-center justify-center">
-              <img
-                src="assets/icon-cross.svg"
-                alt="icon-cross"
-                class="cursor-pointer"
-              />
+            <div>
+              <app-buttonse
+                [text]="'Add New Subtask'"
+                [additionalClasses]="''"
+                (click)="addSubtaskEdit()"
+                [type]="''"
+              ></app-buttonse>
             </div>
-          </div>
-          <div>
-            <app-buttonse
-              [text]="'+ Add New Subtask'"
-              [additionalClasses]="'!text-white !bg-main-purple'"
-            ></app-buttonse>
           </div>
         </div>
+        <!-- Status Dropdown -->
+        <div>
+          <app-dropdown
+          [options]="(columnsNames$ | async) ?? []"
+          [control]="statusEditControl"
+          [label]="'Status'"
+          [value]="statusEditControlValue"
+          ></app-dropdown>
+        </div>
+        <!-- <div>
+          <app-dropdown
+            [value]="selectedTask.status"
+            [options]="(columnsNames$ | async) ?? []"
+            [label]="'Status'"
+            (selectionChange)="onStatusChange($event)"
+          ></app-dropdown>
+        </div> -->
+        <!-- Save Task Button -->
+        <div>
+          <app-buttonse
+            [text]="'Save Changes'"
+            [additionalClasses]="'!text-white !bg-main-purple'"
+            type="submit"
+          ></app-buttonse>
+        </div>
       </div>
-      <div>
-        <app-dropdown [label]="'Status'"></app-dropdown>
-      </div>
-      <div>
-        <app-buttonse
-          [text]="'Edit Task'"
-          [additionalClasses]="'!text-white !bg-main-purple'"
-        ></app-buttonse>
-      </div>
-    </div>
+    </form>
   </app-modal>
 
   <!-- Modal for delete-task -->

@@ -54,3 +54,9 @@ export const updateTaskStatus = createAction(
   '[Boards] Update Task Status',
   props<{ taskId: string; newStatus: string }>()
 );
+
+// Action to update the task in the store
+export const updateTaskInStore = createAction(
+  '[Boards] Update Task In Store',
+  props<{ task: Task }>()
+);

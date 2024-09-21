@@ -14,6 +14,7 @@ import {
   selectBoard,
   updateBoard,
   updateSubtaskInTask,
+  updateTaskInStore,
   updateTaskStatus,
 } from './store/actions/boards.actions';
 import { combineLatest, first, map, Observable, of, switchMap } from 'rxjs';
@@ -61,6 +62,8 @@ export class AppComponent implements OnInit {
   columnsNames$!: Observable<string[]>;
 
   selectedTask!: Task; // Store the selected task
+
+  editTaskForm!: FormGroup; // Define editTaskForm
 
   editBoardForm!: FormGroup; // Form for editing board
   selectedBoard$!: Observable<Board | undefined>; // Observable for the selected board
@@ -180,12 +183,17 @@ export class AppComponent implements OnInit {
       console.log('Selected columns:', columns);
     });
 
-    // this.selectedBoard$.subscribe((board) => {
-    //   if (board) {
-    //     const columnsNames: string[] = board.columns.map((col) => col.name);
-    //     console.log('Selected board:', columnsNames);
-    //   }
-    // });
+    // Initialize editTaskForm
+    this.editTaskForm = this.fb.group({
+      title: ['', [Validators.required]],
+      description: [''],
+      status: ['', [Validators.required]],
+      subtasks: this.fb.array([]), // Subtasks will be added dynamically
+    });
+
+    this.editTaskForm.valueChanges.subscribe((value) => {
+      console.log('Edit task form value changes:', value);
+    });
   }
 
   ngAfterViewInit(): void {}
@@ -197,10 +205,12 @@ export class AppComponent implements OnInit {
   onStatusChange(newStatus: string) {
     if (this.selectedTask) {
       // Dispatch an action to update the task's status in the store
-      this.store.dispatch(updateTaskStatus({
-        taskId: this.selectedTask.title, // assuming taskId is the title, or replace it with a proper taskId field if available
-        newStatus: newStatus
-      }));
+      this.store.dispatch(
+        updateTaskStatus({
+          taskId: this.selectedTask.title, // assuming taskId is the title, or replace it with a proper taskId field if available
+          newStatus: newStatus,
+        })
+      );
     }
   }
 
@@ -361,6 +371,104 @@ export class AppComponent implements OnInit {
     }
   }
 
+  // Method to populate editTaskForm with selected task data
+  populateEditTaskForm(task: Task): void {
+    // Clear the form before populating
+    this.editTaskForm.reset();
+
+    // Set the task values into the form
+    this.editTaskForm.patchValue({
+      title: task.title,
+      description: task.description,
+      status: task.status,
+      subtasks: task.subtasks.map((subtask) => subtask.title),
+    });
+
+    // Clear existing subtasks and repopulate
+    const subtasksArray = this.editTaskForm.get('subtasks') as FormArray;
+
+    task.subtasks.forEach((subtask) => {
+      subtasksArray.push(this.fb.control(subtask.title, Validators.required));
+    });
+  }
+
+  onSubmitTaskEdit(): void {
+    if (this.editTaskForm.valid) {
+      const updatedTask: Task = {
+        ...this.selectedTask, // Preserve the original task properties
+        title: this.editTaskForm.get('title')?.value,
+        description: this.editTaskForm.get('description')?.value,
+        status: this.editTaskForm.get('status')?.value,
+        subtasks: this.subtasksControl.value.map(
+          (subtask: string, index: number) => ({
+            title: subtask,
+            isCompleted:
+              this.selectedTask.subtasks[index]?.isCompleted || false, // Preserve completion status
+          })
+        ),
+      };
+
+      // Dispatch action to update the task in the store
+      this.store.dispatch(updateTaskInStore({ task: updatedTask }));
+
+      this.modalService.closeModal(); // Close the modal after submission
+    }
+  }
+
+  // Getter for subtasks FormArray in editTaskForm
+  get subtasksEditControl(): FormArray {
+    return this.editTaskForm.get('subtasks') as FormArray;
+  }
+
+  // Method to remove a subtask by index
+  removeSubtaskEdit(index: number): void {
+    this.subtasksEditControl.removeAt(index);
+  }
+
+  // Method to add a new subtask field
+  addSubtaskEdit(): void {
+    this.subtasksEditControl.push(new FormControl('', Validators.required));
+  }
+
+  // Getter to return a specific subtask as FormControl
+  getSubtaskEditControl(index: number): FormControl {
+    return this.subtasksEditControl.at(index) as FormControl;
+  }
+
+  get statusEditControl(): FormControl {
+    return this.editTaskForm.get('status') as FormControl;
+  }
+
+  get statusEditControlValue(): string {
+    return this.editTaskForm.get('status')?.value;
+  }
+
+  get editStatusDescription(): FormControl {
+    return this.editTaskForm.get('description') as FormControl;
+  }
+
+  get editTaskTitle(): FormControl {
+    return this.editTaskForm.get('title') as FormControl;
+  }
+
+  // Method to close the edit task modal and clear the form
+  closeEditTaskModal(): void {
+    // Close the modal
+    this.modalService.closeModal();
+
+    // Clear the subtasks FormArray
+    const subtasksArray = this.editTaskForm.get('subtasks') as FormArray;
+    subtasksArray.clear(); // This will remove all subtasks from the FormArray
+
+    // Reset the rest of the form
+    this.editTaskForm.reset({
+      title: '',
+      description: '',
+      status: '',
+      subtasks: [], // Ensure subtasks is initialized as an empty array
+    });
+  }
+
   // Getter for the title form control
   get titleControl(): FormControl {
     return this.taskForm.get('title') as FormControl;
@@ -477,14 +585,20 @@ export class AppComponent implements OnInit {
   }
 
   selectOption(option: string): void {
-    if (option === 'edit') {
-      this.modalService.openModal('edit-task');
+    if (option === 'edit' && this.selectedTask) {
+      this.openEditTaskModal(this.selectedTask); // Call openEditTaskModal with the selected task
     } else if (option === 'delete') {
       this.modalService.openModal('delete-task');
     }
 
-    // Close the dropdown after selection
-    this.toggleDropDown();
+    this.toggleDropDown(); // Close the dropdown after selection
+  }
+
+  // Method to open the edit task modal
+  openEditTaskModal(task: Task): void {
+    this.selectedTask = task; // Store the selected task
+    this.populateEditTaskForm(task); // Populate the form with the task data
+    this.modalService.openModal('edit-task'); // Open the edit-task modal
   }
 
   deleteBoard(): void {

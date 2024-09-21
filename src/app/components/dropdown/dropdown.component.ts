@@ -17,18 +17,16 @@ export class DropdownComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {
-    // If options are not provided, set default options
     if (this.options.length <= 0) {
       this.options = ['Todo', 'Doing', 'Done'];
     }
 
-    // If value is not provided, set it to the first option
-    if (!this.value) {
-      this.value = this.options[0];
-    }
-
-    // Initialize the form control value with the selected value
-    this.control.setValue(this.value);
+    setTimeout(() => {
+      if (!this.value) {
+        this.value = this.options[0];
+      }
+      this.control.setValue(this.value);
+    });
   }
 
   selectOption(option: string) {
