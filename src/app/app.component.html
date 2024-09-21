@@ -69,6 +69,38 @@
 
   <!-- Modal for add-task -->
   <app-modal
+    [isOpen]="(modalService.modalState$ | async) === 'add-column'"
+    (close)="modalService.closeModal()"
+  >
+    <form [formGroup]="taskForm" (ngSubmit)="onSubmitColumn()">
+      <div class="flex flex-col gap-6">
+        <div>
+          <p class="text-heading-l text-black dark:text-white">
+            Add New Column
+          </p>
+        </div>
+        <div>
+          <app-input
+            [label]="'Column'"
+            [type]="'text'"
+            [placeholder]="'Enter column name'"
+            [control]="titleControl"
+            [error]="!!(titleControl.invalid && titleControl.touched)"
+          ></app-input>
+        </div>
+        <div>
+          <app-buttonse
+            [text]="'Create Column'"
+            [additionalClasses]="'!text-white !bg-main-purple'"
+            type="submit"
+          ></app-buttonse>
+        </div>
+      </div>
+    </form>
+  </app-modal>
+
+  <!-- Modal for add-task -->
+  <app-modal
     [isOpen]="(modalService.modalState$ | async) === 'add-task'"
     (close)="modalService.closeModal()"
   >
@@ -134,7 +166,10 @@
           </div>
         </div>
         <div>
-          <app-dropdown [control]="statusControl" [label]="'Status'"></app-dropdown>
+          <app-dropdown
+            [control]="statusControl"
+            [label]="'Status'"
+          ></app-dropdown>
         </div>
         <div>
           <app-buttonse
@@ -431,7 +466,9 @@
               [tasks]="column.tasks"
             ></app-column>
           </ng-container>
-          <app-addcolumn></app-addcolumn>
+          <div (click)="addColumn()">
+            <app-addcolumn></app-addcolumn>
+          </div>
         </div>
         <!-- <div class="flex flex-col items-center justify-center h-full gap-6">
           <p class="text-center text-black dark:text-white">

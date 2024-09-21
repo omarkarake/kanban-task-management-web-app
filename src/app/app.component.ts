@@ -111,7 +111,7 @@ export class AppComponent implements OnInit {
 
   // Method to add a new column field
   addColumn(): void {
-    this.columnsControl.push(new FormControl('', Validators.required));
+    this.modalService.openModal('add-column');
   }
 
   // Method to remove a column by index
@@ -208,6 +208,8 @@ export class AppComponent implements OnInit {
       console.log('Form is invalid');
     }
   }
+
+  onSubmitColumn() {}
 
   toggleTheme() {
     this.themeService.toggleTheme();
