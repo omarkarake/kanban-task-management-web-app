@@ -82,6 +82,33 @@ export const boardsReducer = createReducer(
       },
       state
     );
+  }),
+
+  // Handle adding a column to the selected board
+  on(BoardsActions.addColumnToBoard, (state, { column }) => {
+    if (state.selectedBoardIndex === null) {
+      console.error('No board selected');
+      return state;
+    }
+
+    console.log('Dispatched addColumnToBoard action', column);
+
+    const selectedBoard = state.entities[state.ids[state.selectedBoardIndex]];
+    if (!selectedBoard) {
+      console.error('No board found for selected index');
+      return state;
+    }
+
+    // Update the columns of the selected board
+    return adapter.updateOne(
+      {
+        id: selectedBoard.id,
+        changes: {
+          columns: [...selectedBoard.columns, column],
+        },
+      },
+      state
+    );
   })
 );
 

@@ -7,6 +7,7 @@ import { Board, BoardsData, Column } from './models/boards.modal';
 import { Store } from '@ngrx/store';
 import {
   addBoard,
+  addColumnToBoard,
   addTaskToColumn,
   loadBoardsData,
   selectBoard,
@@ -42,6 +43,7 @@ export class AppComponent implements OnInit {
   columns$!: Observable<Column[]>;
   inputForm!: FormGroup;
   taskForm!: FormGroup;
+  columnForm!: FormGroup;
 
   constructor(
     private themeService: ThemeService,
@@ -84,6 +86,10 @@ export class AppComponent implements OnInit {
       subtasks: new FormArray([]),
     });
 
+    this.columnForm = new FormGroup({
+      name: new FormControl('', [Validators.required]),
+    });
+
     // Subscribe to valueChanges and log the value
     this.inputForm.valueChanges.subscribe((value) => {
       console.log('Form value changes:', value);
@@ -92,6 +98,14 @@ export class AppComponent implements OnInit {
     this.taskForm.valueChanges.subscribe((value) => {
       console.log('Task form value changes:', value);
     });
+
+    this.columnForm.valueChanges.subscribe((value) => {
+      console.log('Column form value changes:', value);
+    });
+  }
+  // getter for the name form control for the column
+  get columnNameControl(): FormControl {
+    return this.columnForm.get('name') as FormControl;
   }
 
   // Getter for the name form control
@@ -209,7 +223,24 @@ export class AppComponent implements OnInit {
     }
   }
 
-  onSubmitColumn() {}
+  // Submit form and add a new column to the selected board
+  onSubmitColumn(): void {
+    if (this.columnForm.valid) {
+      const newColumn: Column = {
+        name: this.columnNameControl.value,
+        tasks: [], // Initialize with empty tasks
+      };
+
+      // Dispatch the action to add the column to the selected board
+      this.store.dispatch(addColumnToBoard({ column: newColumn }));
+
+      // Reset the form after submission
+      this.columnForm.reset();
+      this.closeModal();
+    } else {
+      console.log('Form is invalid');
+    }
+  }
 
   toggleTheme() {
     this.themeService.toggleTheme();
