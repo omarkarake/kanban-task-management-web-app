@@ -9,6 +9,7 @@ export interface BoardsState extends EntityState<Board> {
   loaded: boolean;
   error: string | null;
   selectedBoardIndex: number | null;
+  // here is where the 
 }
 
 // Create an adapter for Board entities using 'id' as the unique identifier
@@ -57,7 +58,7 @@ export const boardsReducer = createReducer(
       return state;
     }
 
-    const selectedBoard = state.entities[state.selectedBoardIndex];
+    const selectedBoard = state.entities[state.ids[state.selectedBoardIndex]];
     console.log('Selected Board:', selectedBoard);
 
     if (!selectedBoard) {
