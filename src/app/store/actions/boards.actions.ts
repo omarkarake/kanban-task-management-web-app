@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { Board, Column, Task } from '../../models/boards.modal';
+import { Board, Column, Subtask, Task } from '../../models/boards.modal';
 
 // Action to load boards data
 export const loadBoardsData = createAction(
@@ -41,4 +41,10 @@ export const updateBoard = createAction(
 export const deleteBoard = createAction(
   '[Boards] Delete Board',
   props<{ boardId: string }>()
+);
+
+// Action to update subtasks in a task
+export const updateSubtaskInTask = createAction(
+  '[Boards] Update Subtask in Task',
+  props<{ taskId: string; updatedSubtasks: Subtask[] }>()
 );

@@ -163,7 +163,41 @@ export const boardsReducer = createReducer(
   on(BoardsActions.deleteBoard, (state, { boardId }) => {
     console.log('Reducer is deleting board with ID:', boardId);
     return adapter.removeOne(boardId, state);
-  })
+  }),
+
+  // Handle updating subtasks in a task
+  on(
+    BoardsActions.updateSubtaskInTask,
+    (state, { taskId, updatedSubtasks }) => {
+      if (state.selectedBoardIndex === null) {
+        console.error('No board selected');
+        return state;
+      }
+
+      const selectedBoard = state.entities[state.ids[state.selectedBoardIndex]];
+      if (!selectedBoard) {
+        console.error('No board found for selected index');
+        return state;
+      }
+
+      // Find the task in the columns and update the subtasks
+      const updatedColumns = selectedBoard.columns.map((column) => ({
+        ...column,
+        tasks: column.tasks.map((task) =>
+          task.title === taskId ? { ...task, subtasks: updatedSubtasks } : task
+        ),
+      }));
+
+      // Update the state with the new subtasks
+      return adapter.updateOne(
+        {
+          id: selectedBoard.id,
+          changes: { columns: updatedColumns },
+        },
+        state
+      );
+    }
+  )
 );
 
 // Export selectors for getting entities and the state

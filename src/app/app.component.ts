@@ -13,6 +13,7 @@ import {
   loadBoardsData,
   selectBoard,
   updateBoard,
+  updateSubtaskInTask,
 } from './store/actions/boards.actions';
 import { combineLatest, first, map, Observable, of, switchMap } from 'rxjs';
 import {
@@ -286,6 +287,24 @@ export class AppComponent implements OnInit {
         this.fb.control(column.name, Validators.required)
       );
     });
+  }
+
+  // Method to handle subtask toggle
+  onSubtaskToggled(subtaskIndex: number, currentState: boolean): void {
+    // Clone the task and update the specific subtask's isCompleted state
+    const updatedSubtasks = this.selectedTask.subtasks.map((subtask, index) =>
+      index === subtaskIndex
+        ? { ...subtask, isCompleted: !currentState }
+        : subtask
+    );
+
+    // Dispatch an action to update the subtask in the store
+    this.store.dispatch(
+      updateSubtaskInTask({
+        taskId: this.selectedTask.title,
+        updatedSubtasks: updatedSubtasks,
+      })
+    );
   }
 
   // Submit the updated board

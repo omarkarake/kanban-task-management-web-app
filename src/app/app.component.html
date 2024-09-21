@@ -53,12 +53,14 @@
           Subtasks ({{ completedSubtasksCount }} of {{ totalSubtasksCount }})
         </p>
         <div class="flex flex-col gap-2 mt-4">
-          <div *ngFor="let subtask of selectedTask?.subtasks">
+          <div *ngFor="let subtask of selectedTask?.subtasks; let i = index">
             <app-subtask-checkbox
               [title]="subtask.title"
               [isChecked]="subtask.isCompleted"
+              (checkboxToggled)="onSubtaskToggled(i, subtask.isCompleted)"
             ></app-subtask-checkbox>
           </div>
+          
         </div>
       </div>
       <div>
