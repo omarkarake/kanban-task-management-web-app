@@ -17,9 +17,31 @@
       <div class="flex items-center justify-between">
         <p class="text-heading-l text-black dark:text-white">
           {{ selectedTask.title }}
-          <!-- Display the selected task title -->
         </p>
+        <div class="relative cursor-pointer">
+          <img
+            src="assets/icon-vertical-ellipsis.svg"
+            alt="icon-vertical-ellipsis"
+            (click)="toggleDropDown()"
+            class="cursor-pointer w-[5px] h-[20px]"
+          />
+          <div
+            *ngIf="dropDownActive"
+            class="p-4 flex flex-col gap-4 w-[192px] rounded-xl absolute right-0 top-10 bg-white dark:bg-dark-gray shadow-2xl"
+          >
+            <p
+              class="text-medium-gray text-body-l"
+              (click)="selectOption('edit')"
+            >
+              Edit Task
+            </p>
+            <p class="text-red text-body-l" (click)="selectOption('delete')">
+              Delete Task
+            </p>
+          </div>
+        </div>
       </div>
+
       <div class="">
         <p class="text-body-l text-medium-gray">
           {{ selectedTask.description }}
