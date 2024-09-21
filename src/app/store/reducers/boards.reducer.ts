@@ -111,40 +111,45 @@ export const boardsReducer = createReducer(
     );
   }),
 
+  // Handle updating a board
   on(BoardsActions.updateBoard, (state, { board }) => {
     if (state.selectedBoardIndex === null) {
       console.error('No board selected');
       return state;
     }
-  
+
     // Fetch the selected board from the state
     const selectedBoard = state.entities[state.ids[state.selectedBoardIndex]];
-  
+
     // Log the selected board for debugging
     console.log('Selected board for updating:', selectedBoard);
-  
+
     if (!selectedBoard) {
-      console.error('No board found for selected index:', state.selectedBoardIndex);
+      console.error(
+        'No board found for selected index:',
+        state.selectedBoardIndex
+      );
       return state;
     }
-  
+
     console.log('Updating board with ID:', selectedBoard.id);
     console.log('Updated board details:', board);
-  
+
     // Update the columns by keeping the tasks intact
     const updatedColumns = board.columns.map((updatedColumn, index) => {
       const existingColumn = selectedBoard.columns[index]; // Get the existing column by index
-  
+
       return existingColumn
         ? { ...existingColumn, name: updatedColumn.name } // Update the name and keep the tasks
         : { ...updatedColumn, tasks: [] }; // For new columns, initialize tasks as empty
     });
-  
+
     // Check if columns need to be removed
-    const trimmedColumns = updatedColumns.length < selectedBoard.columns.length
-      ? updatedColumns
-      : [...updatedColumns];
-  
+    const trimmedColumns =
+      updatedColumns.length < selectedBoard.columns.length
+        ? updatedColumns
+        : [...updatedColumns];
+
     // Proceed with updating the board by using the existing board ID
     return adapter.updateOne(
       {
@@ -153,8 +158,12 @@ export const boardsReducer = createReducer(
       },
       state
     );
+  }),
+
+  on(BoardsActions.deleteBoard, (state, { boardId }) => {
+    console.log('Reducer is deleting board with ID:', boardId);
+    return adapter.removeOne(boardId, state);
   })
-  
 );
 
 // Export selectors for getting entities and the state

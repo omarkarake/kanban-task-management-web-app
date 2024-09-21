@@ -344,7 +344,9 @@
       </p>
       <div class="flex items-center justify-between w-full">
         <div class="w-[48%]">
-          <app-buttonsde [text]="'Delete'"></app-buttonsde>
+          <div (click)="deleteBoard()">
+            <app-buttonsde [text]="'Delete'"></app-buttonsde>
+          </div>
         </div>
         <div class="w-[48%]">
           <app-buttonse [text]="'Cancel'"></app-buttonse>

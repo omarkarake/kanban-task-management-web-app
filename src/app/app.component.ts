@@ -9,11 +9,12 @@ import {
   addBoard,
   addColumnToBoard,
   addTaskToColumn,
+  deleteBoard,
   loadBoardsData,
   selectBoard,
   updateBoard,
 } from './store/actions/boards.actions';
-import { combineLatest, map, Observable, of, switchMap } from 'rxjs';
+import { combineLatest, first, map, Observable, of, switchMap } from 'rxjs';
 import {
   selectAllBoards,
   selectBoardById,
@@ -21,7 +22,13 @@ import {
   selectIds,
   selectSelectedBoardIndex,
 } from './store/selectors/boards.selectors';
-import { FormGroup, FormControl, FormArray, Validators, FormBuilder } from '@angular/forms';
+import {
+  FormGroup,
+  FormControl,
+  FormArray,
+  Validators,
+  FormBuilder,
+} from '@angular/forms';
 import { v4 as uuidv4 } from 'uuid';
 
 @Component({
@@ -146,7 +153,7 @@ export class AppComponent implements OnInit {
     // Initialize the form
     this.editBoardForm = this.fb.group({
       name: ['', [Validators.required]],
-      columns: this.fb.array([]) // We'll populate this array dynamically
+      columns: this.fb.array([]), // We'll populate this array dynamically
     });
 
     this.editBoardForm.valueChanges.subscribe((value) => {
@@ -154,8 +161,7 @@ export class AppComponent implements OnInit {
     });
   }
 
-  ngAfterViewInit(): void {
-  }
+  ngAfterViewInit(): void {}
   // getter for the name form control for the column
   get columnNameControl(): FormControl {
     return this.columnForm.get('name') as FormControl;
@@ -198,7 +204,9 @@ export class AppComponent implements OnInit {
 
   // Add new column control
   addColumnForEditBoard(): void {
-    this.columnsControlForEditBoard.push(this.fb.control('', Validators.required));
+    this.columnsControlForEditBoard.push(
+      this.fb.control('', Validators.required)
+    );
   }
 
   // Remove column control
@@ -214,14 +222,16 @@ export class AppComponent implements OnInit {
   // Populate form with selected board data
   populateEditBoardForm(board: Board): void {
     this.editBoardForm.patchValue({
-      name: board.name
+      name: board.name,
     });
 
     // Clear columns form array before adding new ones
     this.columnsControlForEditBoard.clear();
 
-    board.columns.forEach(column => {
-      this.columnsControlForEditBoard.push(this.fb.control(column.name, Validators.required));
+    board.columns.forEach((column) => {
+      this.columnsControlForEditBoard.push(
+        this.fb.control(column.name, Validators.required)
+      );
     });
   }
 
@@ -230,10 +240,12 @@ export class AppComponent implements OnInit {
     if (this.editBoardForm.valid) {
       const updatedBoard = {
         ...this.editBoardForm.value,
-        columns: this.columnsControlForEditBoard.value.map((columnName: string) => ({
-          name: columnName,
-          tasks: [] // We are not updating tasks here, just column names
-        }))
+        columns: this.columnsControlForEditBoard.value.map(
+          (columnName: string) => ({
+            name: columnName,
+            tasks: [], // We are not updating tasks here, just column names
+          })
+        ),
       };
 
       this.store.dispatch(updateBoard({ board: updatedBoard }));
@@ -390,5 +402,16 @@ export class AppComponent implements OnInit {
 
     // Close the dropdown after selection
     this.toggleDropDown();
+  }
+
+  deleteBoard(): void {
+    // Subscribe only once to the selectedBoard$
+    this.selectedBoard$.pipe(first()).subscribe((board) => {
+      if (board) {
+        console.log('Selected board ID to delete:', board.id); // Debug log to ensure correct ID
+        this.store.dispatch(deleteBoard({ boardId: board.id }));
+        this.modalService.closeModal(); // Close the modal after deletion
+      }
+    });
   }
 }

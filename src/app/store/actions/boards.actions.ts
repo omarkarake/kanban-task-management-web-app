@@ -36,3 +36,9 @@ export const updateBoard = createAction(
   '[Boards] Update Board',
   props<{ board: Board }>()
 );
+
+// Action to delete a board by ID
+export const deleteBoard = createAction(
+  '[Boards] Delete Board',
+  props<{ boardId: string }>()
+);
