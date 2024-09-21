@@ -13,9 +13,14 @@ export class DropdownComponent implements OnInit {
   @Input() control: FormControl = new FormControl(this.value); // Form control to bind with reactive forms
   dropDownActive: boolean = false;
 
-  constructor() {}
+  constructor() {
+  }
 
   ngOnInit(): void {
+    this.options.length <= 0
+    ? (this.options = ['Todo', 'Doing', 'Done'])
+    : this.options;
+
     // Initialize the form control value with the selected value
     this.control.setValue(this.value);
   }

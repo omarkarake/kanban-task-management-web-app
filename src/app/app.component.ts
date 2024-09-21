@@ -56,6 +56,8 @@ export class AppComponent implements OnInit {
   taskForm!: FormGroup;
   columnForm!: FormGroup;
 
+  columnsNames$!: Observable<string[]>;
+
   editBoardForm!: FormGroup; // Form for editing board
   selectedBoard$!: Observable<Board | undefined>; // Observable for the selected board
   selectedBoardIndex$!: Observable<number | null>; // Store the index of selected board
@@ -159,6 +161,27 @@ export class AppComponent implements OnInit {
     this.editBoardForm.valueChanges.subscribe((value) => {
       // console.log('Edit board form value changes:', value);
     });
+
+    this.columnsNames$ = this.selectedBoard$.pipe(
+      map((board) => {
+        if (board) {
+          return board.columns.map((col) => col.name);
+        } else {
+          return [];
+        }
+      })
+    );
+
+    this.columnsNames$.subscribe((columns) => {
+      console.log('Selected columns:', columns);
+    });
+
+    // this.selectedBoard$.subscribe((board) => {
+    //   if (board) {
+    //     const columnsNames: string[] = board.columns.map((col) => col.name);
+    //     console.log('Selected board:', columnsNames);
+    //   }
+    // });
   }
 
   ngAfterViewInit(): void {}
