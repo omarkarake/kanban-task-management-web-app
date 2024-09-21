@@ -1,7 +1,7 @@
 import { createReducer, on } from '@ngrx/store';
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 import * as BoardsActions from '../actions/boards.actions';
-import { Board } from '../../models/boards.modal';
+import { Board, Task } from '../../models/boards.modal';
 import { addTaskToColumn } from '../actions/boards.actions';
 
 // Extend EntityState to use NgRx Entity for boards
@@ -199,35 +199,62 @@ export const boardsReducer = createReducer(
     }
   ),
 
+  // Handle updating task status
   on(BoardsActions.updateTaskStatus, (state, { taskId, newStatus }) => {
     if (state.selectedBoardIndex === null) {
       console.error('No board selected');
       return state;
     }
-
+  
     const selectedBoard = state.entities[state.ids[state.selectedBoardIndex]];
     if (!selectedBoard) {
       console.error('No board found for selected index');
       return state;
     }
-
-    // Find the task and update the status
-    const updatedColumns = selectedBoard.columns.map((column) => ({
+  
+    // Step 1: Find the task and remove it from its current column
+    let taskToUpdate: Task | null = null; // Ensure taskToUpdate is initialized as null
+    const updatedColumnsWithoutTask = selectedBoard.columns.map((column) => ({
       ...column,
-      tasks: column.tasks.map((task) =>
-        task.title === taskId ? { ...task, status: newStatus } : task
-      ),
+      tasks: column.tasks.filter((task) => {
+        if (task.title === taskId) {
+          taskToUpdate = task; // Store the task for later
+          return false; // Remove the task from the current column
+        }
+        return true; // Keep other tasks in the column
+      }),
     }));
-
-    // Update the state with the new task status
+  
+    // If task is not found, return the state
+    if (!taskToUpdate) {
+      console.error('Task not found');
+      return state;
+    }
+  
+    // Step 2: Update the task's status
+    const updatedTask: Task = { ...(taskToUpdate as Task), status: newStatus };
+  
+    // Step 3: Add the updated task to the corresponding column based on its new status
+    const updatedColumnsWithTask = updatedColumnsWithoutTask.map((column) => {
+      if (column.name.toLowerCase() === newStatus.toLowerCase()) {
+        return {
+          ...column,
+          tasks: [...column.tasks, updatedTask], // Add the task to the new status column
+        };
+      }
+      return column; // No changes to other columns
+    });
+  
+    // Step 4: Update the state with the new columns
     return adapter.updateOne(
       {
         id: selectedBoard.id,
-        changes: { columns: updatedColumns },
+        changes: { columns: updatedColumnsWithTask },
       },
       state
     );
   })
+  
 );
 
 // Export selectors for getting entities and the state

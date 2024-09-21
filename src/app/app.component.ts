@@ -93,7 +93,7 @@ export class AppComponent implements OnInit {
     this.columns$ = this.store.select(selectColumnsOfSelectedBoard);
 
     this.columns$.subscribe((columns) => {
-      // console.log('Selected columns in app: ', columns);
+      console.log('Selected columns in app: ', columns);
     });
 
     this.inputForm = new FormGroup({
