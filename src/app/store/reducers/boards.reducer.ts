@@ -308,6 +308,38 @@ export const boardsReducer = createReducer(
       },
       state
     );
+  }),
+
+  on(BoardsActions.deleteTaskFromStore, (state, { taskId, columnName }) => {
+    if (state.selectedBoardIndex === null) {
+      console.error('No board selected');
+      return state;
+    }
+
+    const selectedBoard = state.entities[state.ids[state.selectedBoardIndex]];
+    if (!selectedBoard) {
+      console.error('No board found for selected index');
+      return state;
+    }
+
+    // Step 1: Remove the task from the specified column
+    const updatedColumns = selectedBoard.columns.map((column) =>
+      column.name === columnName
+        ? {
+            ...column,
+            tasks: column.tasks.filter((task) => task.title !== taskId), // Remove the task from the column
+          }
+        : column
+    );
+
+    // Step 2: Return the updated state with the task removed
+    return adapter.updateOne(
+      {
+        id: selectedBoard.id,
+        changes: { columns: updatedColumns },
+      },
+      state
+    );
   })
 );
 

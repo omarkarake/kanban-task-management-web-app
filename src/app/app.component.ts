@@ -10,6 +10,7 @@ import {
   addColumnToBoard,
   addTaskToColumn,
   deleteBoard,
+  deleteTaskFromStore,
   loadBoardsData,
   selectBoard,
   updateBoard,
@@ -595,12 +596,35 @@ export class AppComponent implements OnInit {
   selectOption(option: string): void {
     if (option === 'edit' && this.selectedTask) {
       this.openEditTaskModal(this.selectedTask); // Call openEditTaskModal with the selected task
-    } else if (option === 'delete') {
-      this.modalService.openModal('delete-task');
+    } else if (option === 'delete' && this.selectedTask) {
+      this.openDeleteTaskModal(this.selectedTask); // Open the delete task modal with the selected task
     }
 
     this.toggleDropDown(); // Close the dropdown after selection
   }
+
+  openDeleteTaskModal(task: Task): void {
+    this.selectedTask = task; // Store the selected task to be deleted
+    console.log('Task to delete:', task); // Log the task to delete
+    this.modalService.openModal('delete-task'); // Open the delete-task modal
+  }
+
+  deleteTask(): void {
+    if (this.selectedTask) {
+      console.log('Deleting task:', this.selectedTask); // Log the task to be deleted
+  
+      // Dispatch an action to delete the task from the store
+      this.store.dispatch(
+        deleteTaskFromStore({
+          taskId: this.selectedTask.title, // Use task title or replace with task ID if available
+          columnName: this.selectedTask.status, // Assuming status corresponds to the column name
+        })
+      );
+  
+      this.modalService.closeModal(); // Close the modal after deletion
+    }
+  }
+  
 
   // Method to open the edit task modal
   openEditTaskModal(task: Task): void {
@@ -608,6 +632,11 @@ export class AppComponent implements OnInit {
     this.originalTaskTitle = task.title; // Store the original title before editing
     this.populateEditTaskForm(task); // Populate the form with the task data
     this.modalService.openModal('edit-task'); // Open the edit-task modal
+  }
+
+
+  cancelDelete(){
+    this.modalService.closeModal();
   }
 
   deleteBoard(): void {

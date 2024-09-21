@@ -60,3 +60,8 @@ export const updateTaskInStore = createAction(
   '[Boards] Update Task In Store',
   props<{ task: Task; originalTitle: string }>() // Include the originalTitle
 );
+
+export const deleteTaskFromStore = createAction(
+  '[Boards] Delete Task From Store',
+  props<{ taskId: string; columnName: string }>() // Pass the task ID and the column name where the task belongs
+);
