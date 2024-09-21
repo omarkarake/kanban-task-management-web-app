@@ -399,7 +399,7 @@ export class AppComponent implements OnInit {
         title: this.editTaskForm.get('title')?.value,
         description: this.editTaskForm.get('description')?.value,
         status: this.editTaskForm.get('status')?.value,
-        subtasks: this.subtasksControl.value.map(
+        subtasks: this.subtasksEditControl.value.map(
           (subtask: string, index: number) => ({
             title: subtask,
             isCompleted:
@@ -408,10 +408,12 @@ export class AppComponent implements OnInit {
         ),
       };
 
-      // Dispatch action to update the task in the store
+      // Dispatch an action to update the task in the store
       this.store.dispatch(updateTaskInStore({ task: updatedTask }));
 
-      this.modalService.closeModal(); // Close the modal after submission
+      this.closeEditTaskModal();
+    } else {
+      console.log('Form is invalid');
     }
   }
 

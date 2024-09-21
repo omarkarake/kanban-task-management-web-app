@@ -205,13 +205,13 @@ export const boardsReducer = createReducer(
       console.error('No board selected');
       return state;
     }
-  
+
     const selectedBoard = state.entities[state.ids[state.selectedBoardIndex]];
     if (!selectedBoard) {
       console.error('No board found for selected index');
       return state;
     }
-  
+
     // Step 1: Find the task and remove it from its current column
     let taskToUpdate: Task | null = null; // Ensure taskToUpdate is initialized as null
     const updatedColumnsWithoutTask = selectedBoard.columns.map((column) => ({
@@ -224,16 +224,16 @@ export const boardsReducer = createReducer(
         return true; // Keep other tasks in the column
       }),
     }));
-  
+
     // If task is not found, return the state
     if (!taskToUpdate) {
       console.error('Task not found');
       return state;
     }
-  
+
     // Step 2: Update the task's status
     const updatedTask: Task = { ...(taskToUpdate as Task), status: newStatus };
-  
+
     // Step 3: Add the updated task to the corresponding column based on its new status
     const updatedColumnsWithTask = updatedColumnsWithoutTask.map((column) => {
       if (column.name.toLowerCase() === newStatus.toLowerCase()) {
@@ -244,7 +244,7 @@ export const boardsReducer = createReducer(
       }
       return column; // No changes to other columns
     });
-  
+
     // Step 4: Update the state with the new columns
     return adapter.updateOne(
       {
@@ -253,8 +253,59 @@ export const boardsReducer = createReducer(
       },
       state
     );
+  }),
+
+  on(BoardsActions.updateTaskInStore, (state, { task }) => {
+    if (state.selectedBoardIndex === null) {
+      console.error('No board selected');
+      return state;
+    }
+
+    const selectedBoard = state.entities[state.ids[state.selectedBoardIndex]];
+    if (!selectedBoard) {
+      console.error('No board found for selected index');
+      return state;
+    }
+
+    // Step 1: Remove the task from its current column
+    let taskToUpdate: Task | null = null;
+    const updatedColumnsWithoutTask = selectedBoard.columns.map((column) => ({
+      ...column,
+      tasks: column.tasks.filter((existingTask) => {
+        if (existingTask.title === task.title) {
+          taskToUpdate = existingTask; // Store the task for later use
+          return false; // Remove the task from the current column
+        }
+        return true;
+      }),
+    }));
+
+    // If the task is not found, return the state
+    if (!taskToUpdate) {
+      console.error('Task not found');
+      return state;
+    }
+
+    // Step 2: Add the updated task to the column matching the new status
+    const updatedColumnsWithTask = updatedColumnsWithoutTask.map((column) => {
+      if (column.name.toLowerCase() === task.status.toLowerCase()) {
+        return {
+          ...column,
+          tasks: [...column.tasks, task], // Add the task to the new column based on the updated status
+        };
+      }
+      return column; // No changes to other columns
+    });
+
+    // Step 3: Return the updated state
+    return adapter.updateOne(
+      {
+        id: selectedBoard.id,
+        changes: { columns: updatedColumnsWithTask },
+      },
+      state
+    );
   })
-  
 );
 
 // Export selectors for getting entities and the state
