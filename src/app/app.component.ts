@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { ThemeService } from './services/theme/theme.service';
 import { LargenavService } from './services/navigation/largenav.service';
 import { ModalService } from './services/theme/modal/modal.service';
@@ -12,10 +12,13 @@ import {
   loadBoardsData,
   selectBoard,
 } from './store/actions/boards.actions';
-import { Observable } from 'rxjs';
+import { combineLatest, map, Observable, of, switchMap } from 'rxjs';
 import {
   selectAllBoards,
+  selectBoardById,
   selectColumnsOfSelectedBoard,
+  selectIds,
+  selectSelectedBoardIndex,
 } from './store/selectors/boards.selectors';
 import { FormGroup, FormControl, FormArray, Validators } from '@angular/forms';
 import { v4 as uuidv4 } from 'uuid';
@@ -25,7 +28,7 @@ import { v4 as uuidv4 } from 'uuid';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, AfterViewInit {
   layoutSideBarOpen: boolean = false;
   backDropFilter: boolean = false;
   backDropFilterLarge: boolean = false;
@@ -44,6 +47,10 @@ export class AppComponent implements OnInit {
   inputForm!: FormGroup;
   taskForm!: FormGroup;
   columnForm!: FormGroup;
+
+  editBoardForm!: FormGroup; // Form for editing board
+  selectedBoard$!: Observable<Board | undefined>; // Observable for the selected board
+  selectedBoardIndex$!: Observable<number | null>; // Store the index of selected board
 
   constructor(
     private themeService: ThemeService,
@@ -90,6 +97,19 @@ export class AppComponent implements OnInit {
       name: new FormControl('', [Validators.required]),
     });
 
+    // Fetch the selected board using the selectedBoardIndex from the store
+    // this.selectedBoard$ = this.selectedBoardIndex$.pipe(
+    //   switchMap((index) =>
+    //     index !== null
+    //       ? this.store.select(selectIds).pipe(
+    //           switchMap((ids: string[]) =>
+    //             this.store.select(selectBoardById(ids[index])) // Get the board by ID
+    //           )
+    //         )
+    //       : of(undefined)
+    //   )
+    // );
+
     // Subscribe to valueChanges and log the value
     this.inputForm.valueChanges.subscribe((value) => {
       console.log('Form value changes:', value);
@@ -101,6 +121,32 @@ export class AppComponent implements OnInit {
 
     this.columnForm.valueChanges.subscribe((value) => {
       console.log('Column form value changes:', value);
+    });
+  }
+
+  ngAfterViewInit(): void {
+    // Get selected board index and board IDs as observables
+    this.selectedBoardIndex$ = this.store.select(selectSelectedBoardIndex);
+    const boardIds$ = this.store.select(selectIds);
+
+    // Combine selectedBoardIndex$ and boardIds$
+    this.selectedBoard$ = combineLatest([
+      this.selectedBoardIndex$,
+      boardIds$,
+    ]).pipe(
+      switchMap(([index, ids]) => {
+        if (index !== null && ids.length > 0) {
+          const boardId = ids[index]; // Get the board ID based on the index
+          return this.store.select(selectBoardById(boardId as string)); // Select board by ID
+        } else {
+          return of(undefined); // Return undefined if no board is selected
+        }
+      })
+    );
+
+    // Subscribe to the selectedBoard$ observable and log the result
+    this.selectedBoard$.subscribe((board) => {
+      console.log('Selected board in app afterview:', board);
     });
   }
   // getter for the name form control for the column

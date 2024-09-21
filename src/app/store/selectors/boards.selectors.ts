@@ -12,6 +12,12 @@ export const selectAllBoards = createSelector(
   adapter.getSelectors().selectAll
 );
 
+// Add the selectIds selector to get the list of board IDs
+export const selectIds = createSelector(
+  selectBoardsState,
+  adapter.getSelectors().selectIds // This provides the list of board IDs
+);
+
 // Select a specific board by ID
 export const selectBoardById = (id: string) =>
   createSelector(selectBoardsState, (state) => state.entities[id]);
