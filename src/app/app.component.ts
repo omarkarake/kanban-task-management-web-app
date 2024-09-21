@@ -203,6 +203,7 @@ export class AppComponent implements OnInit {
       // Reset the form after submission
       this.taskForm.reset();
       (this.taskForm.get('subtasks') as FormArray).clear(); // Clear the subtasks array
+      this.closeModal();
     } else {
       console.log('Form is invalid');
     }
