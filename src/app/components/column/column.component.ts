@@ -9,7 +9,6 @@ import { AppComponent } from '../../app.component';
   styleUrl: './column.component.css',
 })
 export class ColumnComponent implements OnInit {
-  // title can be: 'todo', 'doing', 'done'
   @Input() title: string = 'todo'; // Title of the column
   @Input() tasks: Task[] = []; // Tasks associated with the column
   subtasks: Subtask[] = []; // Subtasks associated with the task
@@ -19,12 +18,7 @@ export class ColumnComponent implements OnInit {
     this.tasks.forEach((task) => {
       this.subtasks.push(...task.subtasks);
     });
-
-    // console.log("subtasks are: ", this.subtasks);
   }
-  // openModal() {
-  //   this.modalService.openModal('view-task');
-  // }
 
   // Method to handle task click and open modal with task data
   openTaskModal(task: Task) {
