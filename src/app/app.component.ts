@@ -545,22 +545,29 @@ export class AppComponent implements OnInit {
 
   // Submit form and add a new column to the selected board
   onSubmitColumn(): void {
-    if (this.columnForm.valid) {
-      const newColumn: Column = {
-        name: this.columnNameControl.value,
-        tasks: [], // Initialize with empty tasks
-      };
-
-      // Dispatch the action to add the column to the selected board
-      this.store.dispatch(addColumnToBoard({ column: newColumn }));
-
-      // Reset the form after submission
-      this.columnForm.reset();
-      this.closeModal();
-    } else {
-      // console.log('Form is invalid');
-    }
-  }
+    // Subscribe to selectedBoardIndex$
+    this.selectedBoardIndex$.subscribe((index) => {
+      if (index === null) {
+        console.error('No board selected');
+        return;
+      }
+  
+      if (this.columnForm.valid) {
+        const newColumn: Column = {
+          name: this.columnNameControl.value,
+          tasks: [], // Initialize with empty tasks
+        };
+  
+        // Dispatch the action to add the column to the selected board
+        this.store.dispatch(addColumnToBoard({ column: newColumn }));
+  
+        // Reset the form after submission
+        this.columnForm.reset();
+        this.closeModal();
+      }
+    }).unsubscribe(); // Unsubscribe after using the observable
+  }  
+  
 
   toggleTheme() {
     this.themeService.toggleTheme();
