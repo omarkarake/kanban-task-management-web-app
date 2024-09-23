@@ -542,7 +542,7 @@
 
       <!-- Main content for both large and mobile devices -->
       <div class="w-full h-full pt-[65px] overflow-x-scroll overflow-y-scroll">
-        <div class="p-6 pr-6 flex gap-6">
+        <div class="p-6 pr-6 flex gap-6" cdkDropListGroup>
           <!-- Loop through columns$ and pass data to app-column -->
           <ng-container *ngIf="columns$ | async as columns">
             <app-column
@@ -555,6 +555,7 @@
             <app-addcolumn></app-addcolumn>
           </div>
         </div>
+
         <!-- <div class="flex flex-col items-center justify-center h-full gap-6">
           <p class="text-center text-black dark:text-white">
             This board is empty. Create a new column to get started.

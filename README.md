@@ -15,6 +15,7 @@ The app allows users to manage tasks across multiple boards and columns, with fu
 - Modal Services for handling popups like adding and editing tasks/boards.
 - Angular Unit Testing with Jest to ensure robust and reliable code.
 - Entity State Management for managing boards and tasks with NgRx Entity.
+- Drag and drop: the drag and drop feature by moving tasks accros the columns by changing their status
 
 ## Development server
 

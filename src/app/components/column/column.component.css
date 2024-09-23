@@ -1,0 +1,9 @@
+/* Add some styles for drag-and-drop */
+.cdk-drag-preview {
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+.cdk-drag-placeholder {
+  background: lightgray;
+  border: dashed 2px #ccc;
+}
