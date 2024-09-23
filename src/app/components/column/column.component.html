@@ -23,18 +23,38 @@
   >
     <!-- Loop through tasks and display each one -->
     <div
-      class="py-[23px] px-4 bg-white dark:bg-dark-gray rounded-lg shadow-md flex flex-col gap-2 cursor-pointer"
+      class="py-[23px] px-4 bg-white dark:bg-dark-gray rounded-lg shadow-md cursor-pointer flex items-center justify-between"
       *ngFor="let task of tasks"
       (click)="openTaskModal(task)"
       cdkDrag
+      (cdkDragStarted)="onDragStart()"
+      (cdkDragEnded)="onDragEnd()"
     >
-      <p class="text-heading-m text-black dark:text-white">
-        {{ task.title }}
-      </p>
-      <p class="text-body-m text-medium-gray">
-        {{ getCompletedSubtasksCount(task) }} of
-        {{ getTotalSubtasksCount(task) }} subtasks
-      </p>
+      <div class="flex flex-col gap-2">
+        <p class="text-heading-m text-black dark:text-white">
+          {{ task.title }}
+        </p>
+        <p class="text-body-m text-medium-gray">
+          {{ getCompletedSubtasksCount(task) }} of
+          {{ getTotalSubtasksCount(task) }} subtasks
+        </p>
+      </div>
+
+      <!-- Move icon, visible only during drag -->
+      <div class="w-[20%] flex items-center justify-center" *ngIf="isDragging">
+        <img
+          *ngIf="!(isDarkMode$ | async)"
+          src="assets/icon-move.svg"
+          class="w-[15px] h-[15px]"
+          alt="move icon"
+        />
+        <img
+          *ngIf="isDarkMode$ | async"
+          src="assets/icon-move-dark.svg"
+          class="w-[15px] h-[15px]"
+          alt="move icon"
+        />
+      </div>
     </div>
   </div>
 </div>
