@@ -1,4 +1,9 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+} from '@angular/core';
 import { ThemeService } from './services/theme/theme.service';
 import { LargenavService } from './services/navigation/largenav.service';
 import { ModalService } from './services/theme/modal/modal.service';
@@ -78,7 +83,8 @@ export class AppComponent implements OnInit {
     public modalService: ModalService,
     private boardsService: BoardsService,
     private store: Store,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private cdRef: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -226,6 +232,8 @@ export class AppComponent implements OnInit {
 
   // Getter to calculate completed subtasks count
   get completedSubtasksCount(): number {
+    // Trigger change detection manually
+    this.cdRef.markForCheck();
     if (!this.selectedTask || !this.selectedTask.subtasks) {
       return 0;
     }
@@ -235,6 +243,8 @@ export class AppComponent implements OnInit {
 
   // Getter to calculate total subtasks count
   get totalSubtasksCount(): number {
+    // Trigger change detection manually
+    this.cdRef.markForCheck();
     if (!this.selectedTask || !this.selectedTask.subtasks) {
       return 0;
     }
@@ -329,6 +339,9 @@ export class AppComponent implements OnInit {
         updatedSubtasks: updatedSubtasks,
       })
     );
+
+    // Trigger change detection manually
+    this.cdRef.markForCheck();
   }
 
   // Submit the updated board
@@ -546,28 +559,29 @@ export class AppComponent implements OnInit {
   // Submit form and add a new column to the selected board
   onSubmitColumn(): void {
     // Subscribe to selectedBoardIndex$
-    this.selectedBoardIndex$.subscribe((index) => {
-      if (index === null) {
-        console.error('No board selected');
-        return;
-      }
-  
-      if (this.columnForm.valid) {
-        const newColumn: Column = {
-          name: this.columnNameControl.value,
-          tasks: [], // Initialize with empty tasks
-        };
-  
-        // Dispatch the action to add the column to the selected board
-        this.store.dispatch(addColumnToBoard({ column: newColumn }));
-  
-        // Reset the form after submission
-        this.columnForm.reset();
-        this.closeModal();
-      }
-    }).unsubscribe(); // Unsubscribe after using the observable
-  }  
-  
+    this.selectedBoardIndex$
+      .subscribe((index) => {
+        if (index === null) {
+          console.error('No board selected');
+          return;
+        }
+
+        if (this.columnForm.valid) {
+          const newColumn: Column = {
+            name: this.columnNameControl.value,
+            tasks: [], // Initialize with empty tasks
+          };
+
+          // Dispatch the action to add the column to the selected board
+          this.store.dispatch(addColumnToBoard({ column: newColumn }));
+
+          // Reset the form after submission
+          this.columnForm.reset();
+          this.closeModal();
+        }
+      })
+      .unsubscribe(); // Unsubscribe after using the observable
+  }
 
   toggleTheme() {
     this.themeService.toggleTheme();
@@ -619,7 +633,7 @@ export class AppComponent implements OnInit {
   deleteTask(): void {
     if (this.selectedTask) {
       console.log('Deleting task:', this.selectedTask); // Log the task to be deleted
-  
+
       // Dispatch an action to delete the task from the store
       this.store.dispatch(
         deleteTaskFromStore({
@@ -627,11 +641,10 @@ export class AppComponent implements OnInit {
           columnName: this.selectedTask.status, // Assuming status corresponds to the column name
         })
       );
-  
+
       this.modalService.closeModal(); // Close the modal after deletion
     }
   }
-  
 
   // Method to open the edit task modal
   openEditTaskModal(task: Task): void {
@@ -641,8 +654,7 @@ export class AppComponent implements OnInit {
     this.modalService.openModal('edit-task'); // Open the edit-task modal
   }
 
-
-  cancelDelete(){
+  cancelDelete() {
     this.modalService.closeModal();
   }
 
